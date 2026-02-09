@@ -1,206 +1,556 @@
-// Vocational Test Component with AI-based Recommendations
+// Vocational Test Component - Instituto Tecnologico de Chetumal
+// React-based interactive vocational assessment with all 10 official careers
 const { useState, useEffect, useRef } = React;
 
-// Test Vocacional Interactivo
 function VocationalTest() {
     const [currentStep, setCurrentStep] = useState('intro');
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState({});
-    const [results, setResults] = useState(null);
+    const [results, setResults] = useState([]);
     const [isProcessing, setIsProcessing] = useState(false);
-    const [userProfile, setUserProfile] = useState({});
+    const [activeProcessingStep, setActiveProcessingStep] = useState(0);
 
-    // Preguntas del test vocacional
+    // ---------------------------------------------------------------
+    // Career definitions - 10 official programmes of ITChetumal
+    // ---------------------------------------------------------------
+    const careers = {
+        arquitectura: {
+            name: 'Arquitectura',
+            description: 'Forma profesionales capaces de disenar y planificar espacios habitables, proyectos urbanos y construcciones sustentables que transforman el entorno.',
+            duration: '9 semestres',
+            icon: 'fas fa-drafting-compass',
+            color: '#8b5cf6',
+            modality: ['Presencial'],
+            opportunities: [
+                'Arquitecto proyectista',
+                'Disenador urbano',
+                'Consultor en sustentabilidad',
+                'Director de obra'
+            ],
+            skills: [
+                'Diseno arquitectonico',
+                'Modelado 3D',
+                'Construccion sustentable',
+                'Planificacion urbana'
+            ]
+        },
+        contaduria: {
+            name: 'Contador Publico',
+            description: 'Prepara expertos en contabilidad, finanzas, auditoria y fiscalizacion, esenciales para la salud financiera de cualquier organizacion.',
+            duration: '9 semestres',
+            icon: 'fas fa-calculator',
+            color: '#059669',
+            modality: ['Presencial', 'Distancia'],
+            opportunities: [
+                'Contador publico certificado',
+                'Auditor financiero',
+                'Asesor fiscal',
+                'Director de finanzas'
+            ],
+            skills: [
+                'Contabilidad financiera',
+                'Auditoria',
+                'Planeacion fiscal',
+                'Analisis financiero'
+            ]
+        },
+        ingAdministracion: {
+            name: 'Ingenieria en Administracion',
+            description: 'Integra la ingenieria con la administracion para dirigir empresas con vision estrategica, optimizar recursos y fomentar el emprendimiento.',
+            duration: '9 semestres',
+            icon: 'fas fa-chart-line',
+            color: '#d97706',
+            modality: ['Presencial'],
+            opportunities: [
+                'Director de operaciones',
+                'Consultor empresarial',
+                'Gerente de proyectos',
+                'Emprendedor'
+            ],
+            skills: [
+                'Direccion estrategica',
+                'Optimizacion de procesos',
+                'Finanzas corporativas',
+                'Emprendimiento'
+            ]
+        },
+        civil: {
+            name: 'Ingenieria Civil',
+            description: 'Forma ingenieros que disenan, construyen y supervisan infraestructura como carreteras, puentes, edificaciones y sistemas hidraulicos.',
+            duration: '9 semestres',
+            icon: 'fas fa-hard-hat',
+            color: '#dc2626',
+            modality: ['Presencial'],
+            opportunities: [
+                'Ingeniero estructural',
+                'Supervisor de obra',
+                'Disenador de infraestructura vial',
+                'Consultor en geotecnia'
+            ],
+            skills: [
+                'Calculo estructural',
+                'Supervision de obra',
+                'Topografia',
+                'Diseno de infraestructura'
+            ]
+        },
+        electrica: {
+            name: 'Ingenieria Electrica',
+            description: 'Especializa profesionales en sistemas electricos de potencia, generacion de energia, circuitos y automatizacion industrial.',
+            duration: '9 semestres',
+            icon: 'fas fa-bolt',
+            color: '#eab308',
+            modality: ['Presencial'],
+            opportunities: [
+                'Ingeniero de potencia',
+                'Disenador de sistemas electricos',
+                'Especialista en energias renovables',
+                'Ingeniero de automatizacion'
+            ],
+            skills: [
+                'Sistemas electricos de potencia',
+                'Diseno de circuitos',
+                'Energias renovables',
+                'Automatizacion industrial'
+            ]
+        },
+        gestion: {
+            name: 'Ingenieria en Gestion Empresarial',
+            description: 'Desarrolla lideres con habilidades para gestionar empresas, crear estrategias de mercado y dirigir equipos hacia el exito organizacional.',
+            duration: '9 semestres',
+            icon: 'fas fa-briefcase',
+            color: '#2563eb',
+            modality: ['Presencial', 'Distancia'],
+            opportunities: [
+                'Gerente general',
+                'Director de mercadotecnia',
+                'Consultor de negocios',
+                'Lider de desarrollo organizacional'
+            ],
+            skills: [
+                'Liderazgo estrategico',
+                'Mercadotecnia',
+                'Gestion del talento',
+                'Planeacion de negocios'
+            ]
+        },
+        sistemas: {
+            name: 'Ingenieria en Sistemas Computacionales',
+            description: 'Forma ingenieros en desarrollo de software, administracion de bases de datos, redes de computo y seguridad informatica.',
+            duration: '9 semestres',
+            icon: 'fas fa-laptop-code',
+            color: '#7c3aed',
+            modality: ['Presencial', 'Distancia'],
+            opportunities: [
+                'Desarrollador de software',
+                'Administrador de bases de datos',
+                'Ingeniero en ciberseguridad',
+                'Arquitecto de sistemas'
+            ],
+            skills: [
+                'Programacion',
+                'Bases de datos',
+                'Redes de computo',
+                'Ciberseguridad'
+            ]
+        },
+        tics: {
+            name: 'Ingenieria en Tecnologias de la Informacion y Comunicaciones',
+            description: 'Prepara profesionales en gestion de TI, telecomunicaciones, computo en la nube y transformacion digital de las organizaciones.',
+            duration: '9 semestres',
+            icon: 'fas fa-network-wired',
+            color: '#0891b2',
+            modality: ['Presencial'],
+            opportunities: [
+                'Gerente de TI',
+                'Especialista en telecomunicaciones',
+                'Arquitecto de soluciones en la nube',
+                'Consultor en transformacion digital'
+            ],
+            skills: [
+                'Gestion de TI',
+                'Telecomunicaciones',
+                'Computo en la nube',
+                'Transformacion digital'
+            ]
+        },
+        administracion: {
+            name: 'Licenciatura en Administracion',
+            description: 'Forma profesionales en gestion de recursos humanos, desarrollo organizacional y administracion integral de empresas publicas y privadas.',
+            duration: '9 semestres',
+            icon: 'fas fa-users-cog',
+            color: '#f59e0b',
+            modality: ['Presencial', 'Distancia'],
+            opportunities: [
+                'Gerente de recursos humanos',
+                'Coordinador administrativo',
+                'Analista organizacional',
+                'Director de desarrollo empresarial'
+            ],
+            skills: [
+                'Gestion de personal',
+                'Desarrollo organizacional',
+                'Administracion publica',
+                'Planeacion estrategica'
+            ]
+        },
+        biologia: {
+            name: 'Licenciatura en Biologia',
+            description: 'Forma cientificos en biologia, ecologia, conservacion de la biodiversidad e investigacion ambiental para proteger los ecosistemas.',
+            duration: '9 semestres',
+            icon: 'fas fa-leaf',
+            color: '#16a34a',
+            modality: ['Presencial'],
+            opportunities: [
+                'Biologo investigador',
+                'Consultor ambiental',
+                'Especialista en conservacion',
+                'Gestor de recursos naturales'
+            ],
+            skills: [
+                'Investigacion cientifica',
+                'Ecologia de campo',
+                'Conservacion de biodiversidad',
+                'Analisis de laboratorio'
+            ]
+        }
+    };
+
+    // ---------------------------------------------------------------
+    // 10 Questions - each option maps weights (1-3) to career keys
+    // ---------------------------------------------------------------
     const questions = [
         {
             id: 1,
             category: 'interests',
-            question: '¿Cuál de estas actividades te resulta más interesante?',
+            question: 'Que actividad te resulta mas interesante?',
             options: [
-                { value: 'tech', label: 'Programar y desarrollar software', weight: { tech: 3, engineering: 2 } },
-                { value: 'design', label: 'Diseñar y crear productos', weight: { engineering: 3, management: 1 } },
-                { value: 'manage', label: 'Liderar equipos y proyectos', weight: { management: 3, admin: 2 } },
-                { value: 'analyze', label: 'Analizar datos y procesos', weight: { engineering: 2, tech: 2, admin: 1 } }
+                {
+                    value: 'a',
+                    label: 'Programar aplicaciones o explorar nuevas tecnologias',
+                    weight: { sistemas: 3, tics: 3, electrica: 1 }
+                },
+                {
+                    value: 'b',
+                    label: 'Disenar espacios, planos o maquetas',
+                    weight: { arquitectura: 3, civil: 2, electrica: 1 }
+                },
+                {
+                    value: 'c',
+                    label: 'Organizar eventos, liderar equipos o crear negocios',
+                    weight: { gestion: 3, ingAdministracion: 2, administracion: 2 }
+                },
+                {
+                    value: 'd',
+                    label: 'Observar la naturaleza, hacer trabajo de campo o investigar',
+                    weight: { biologia: 3, contaduria: 1, civil: 1 }
+                }
             ]
         },
         {
             id: 2,
             category: 'skills',
-            question: '¿En cuál de estas áreas consideras que tienes más habilidad natural?',
+            question: 'Cual es tu habilidad mas fuerte?',
             options: [
-                { value: 'math', label: 'Matemáticas y lógica', weight: { tech: 3, engineering: 3, civil: 2 } },
-                { value: 'communication', label: 'Comunicación y relaciones interpersonales', weight: { management: 3, admin: 3 } },
-                { value: 'creativity', label: 'Creatividad y innovación', weight: { tech: 2, engineering: 2, management: 1 } },
-                { value: 'organization', label: 'Organización y planificación', weight: { admin: 3, management: 2, engineering: 1 } }
+                {
+                    value: 'a',
+                    label: 'Logica, matematicas y pensamiento analitico',
+                    weight: { sistemas: 2, civil: 3, electrica: 3, ingAdministracion: 1 }
+                },
+                {
+                    value: 'b',
+                    label: 'Comunicacion, negociacion y trabajo en equipo',
+                    weight: { gestion: 3, administracion: 3, contaduria: 1 }
+                },
+                {
+                    value: 'c',
+                    label: 'Creatividad, diseno y vision espacial',
+                    weight: { arquitectura: 3, tics: 2, biologia: 1 }
+                },
+                {
+                    value: 'd',
+                    label: 'Orden, precision y atencion al detalle',
+                    weight: { contaduria: 3, ingAdministracion: 2, electrica: 1 }
+                }
             ]
         },
         {
             id: 3,
             category: 'work_environment',
-            question: '¿En qué tipo de ambiente de trabajo te ves mejor?',
+            question: 'Donde te imaginas trabajando en el futuro?',
             options: [
-                { value: 'office', label: 'Oficina moderna con tecnología', weight: { tech: 3, management: 2 } },
-                { value: 'field', label: 'Campo, construcción o industria', weight: { civil: 3, engineering: 2, chemical: 2 } },
-                { value: 'laboratory', label: 'Laboratorio o centro de investigación', weight: { chemical: 3, tech: 2 } },
-                { value: 'mixed', label: 'Combinación de oficina y campo', weight: { engineering: 2, management: 2, civil: 1 } }
+                {
+                    value: 'a',
+                    label: 'En una oficina de tecnologia o un centro de datos',
+                    weight: { sistemas: 3, tics: 3, electrica: 1 }
+                },
+                {
+                    value: 'b',
+                    label: 'En obra, campo o supervisando construcciones',
+                    weight: { civil: 3, arquitectura: 2, electrica: 2 }
+                },
+                {
+                    value: 'c',
+                    label: 'En una empresa dirigiendo departamentos o proyectos',
+                    weight: { gestion: 3, ingAdministracion: 2, administracion: 2, contaduria: 1 }
+                },
+                {
+                    value: 'd',
+                    label: 'En un laboratorio, reserva natural o centro de investigacion',
+                    weight: { biologia: 3, contaduria: 1 }
+                }
             ]
         },
         {
             id: 4,
             category: 'problem_solving',
-            question: '¿Cómo prefieres resolver problemas complejos?',
+            question: 'Como prefieres resolver problemas complejos?',
             options: [
-                { value: 'systematic', label: 'Siguiendo métodos sistemáticos y probados', weight: { engineering: 3, admin: 2 } },
-                { value: 'creative', label: 'Buscando soluciones creativas e innovadoras', weight: { tech: 3, management: 2 } },
-                { value: 'collaborative', label: 'Trabajando en equipo y consultando expertos', weight: { management: 3, admin: 2 } },
-                { value: 'research', label: 'Investigando y analizando a fondo', weight: { chemical: 3, civil: 2, tech: 1 } }
+                {
+                    value: 'a',
+                    label: 'Con algoritmos, codigo o herramientas digitales',
+                    weight: { sistemas: 3, tics: 2, electrica: 1 }
+                },
+                {
+                    value: 'b',
+                    label: 'Con calculos, planos y modelos fisicos',
+                    weight: { civil: 3, arquitectura: 2, electrica: 2 }
+                },
+                {
+                    value: 'c',
+                    label: 'Analizando numeros, estados financieros y presupuestos',
+                    weight: { contaduria: 3, ingAdministracion: 2, administracion: 1 }
+                },
+                {
+                    value: 'd',
+                    label: 'Investigando, experimentando y observando resultados',
+                    weight: { biologia: 3, gestion: 1, tics: 1 }
+                }
             ]
         },
         {
             id: 5,
             category: 'goals',
-            question: '¿Cuál de estos objetivos profesionales te motiva más?',
+            question: 'Que te motiva mas profesionalmente?',
             options: [
-                { value: 'innovation', label: 'Crear tecnología innovadora', weight: { tech: 3, engineering: 2 } },
-                { value: 'infrastructure', label: 'Construir infraestructura importante', weight: { civil: 3, engineering: 2 } },
-                { value: 'business', label: 'Dirigir una empresa exitosa', weight: { management: 3, admin: 2 } },
-                { value: 'improvement', label: 'Mejorar procesos y sistemas', weight: { engineering: 3, chemical: 2, admin: 1 } }
+                {
+                    value: 'a',
+                    label: 'Crear software que millones de personas utilicen',
+                    weight: { sistemas: 3, tics: 2 }
+                },
+                {
+                    value: 'b',
+                    label: 'Construir infraestructura que perdure por generaciones',
+                    weight: { civil: 3, arquitectura: 2, electrica: 2 }
+                },
+                {
+                    value: 'c',
+                    label: 'Dirigir una empresa exitosa o transformar organizaciones',
+                    weight: { gestion: 3, ingAdministracion: 3, administracion: 2, contaduria: 1 }
+                },
+                {
+                    value: 'd',
+                    label: 'Proteger el medio ambiente y conservar la biodiversidad',
+                    weight: { biologia: 3, arquitectura: 1 }
+                }
             ]
         },
         {
             id: 6,
             category: 'learning',
-            question: '¿Cómo prefieres aprender nuevos conceptos?',
+            question: 'Como aprendes mejor?',
             options: [
-                { value: 'practice', label: 'Practicando y experimentando', weight: { tech: 3, engineering: 2, chemical: 2 } },
-                { value: 'theory', label: 'Estudiando la teoría primero', weight: { chemical: 3, civil: 2 } },
-                { value: 'discussion', label: 'Discutiendo con otros', weight: { management: 3, admin: 2 } },
-                { value: 'observation', label: 'Observando y analizando ejemplos', weight: { engineering: 2, admin: 2, tech: 1 } }
+                {
+                    value: 'a',
+                    label: 'Practicando con computadoras, simuladores o laboratorios virtuales',
+                    weight: { sistemas: 3, tics: 3, electrica: 2 }
+                },
+                {
+                    value: 'b',
+                    label: 'Dibujando, construyendo maquetas o visitando obras',
+                    weight: { arquitectura: 3, civil: 3 }
+                },
+                {
+                    value: 'c',
+                    label: 'Debatiendo, presentando ideas y trabajando en equipo',
+                    weight: { gestion: 2, administracion: 3, ingAdministracion: 2, contaduria: 1 }
+                },
+                {
+                    value: 'd',
+                    label: 'Haciendo trabajo de campo, observando y recolectando datos',
+                    weight: { biologia: 3, electrica: 1, civil: 1 }
+                }
             ]
         },
         {
             id: 7,
             category: 'subjects',
-            question: '¿Cuáles fueron tus materias favoritas en preparatoria?',
+            question: 'Que materias disfrutabas mas en preparatoria?',
             options: [
-                { value: 'math_physics', label: 'Matemáticas y Física', weight: { tech: 3, engineering: 3, civil: 3, chemical: 2 } },
-                { value: 'chemistry_biology', label: 'Química y Biología', weight: { chemical: 3, engineering: 1 } },
-                { value: 'social_languages', label: 'Ciencias Sociales e Idiomas', weight: { management: 3, admin: 3 } },
-                { value: 'computers', label: 'Computación e Informática', weight: { tech: 3, engineering: 1 } }
+                {
+                    value: 'a',
+                    label: 'Informatica, programacion o tecnologia',
+                    weight: { sistemas: 3, tics: 3, electrica: 1 }
+                },
+                {
+                    value: 'b',
+                    label: 'Matematicas, fisica y dibujo tecnico',
+                    weight: { civil: 3, arquitectura: 2, electrica: 3, ingAdministracion: 1 }
+                },
+                {
+                    value: 'c',
+                    label: 'Economia, contabilidad o administracion',
+                    weight: { contaduria: 3, gestion: 2, administracion: 2, ingAdministracion: 2 }
+                },
+                {
+                    value: 'd',
+                    label: 'Biologia, ecologia o quimica',
+                    weight: { biologia: 3, arquitectura: 1 }
+                }
             ]
         },
         {
             id: 8,
             category: 'personality',
-            question: '¿Cómo te describirías mejor?',
+            question: 'Como te describirias mejor?',
             options: [
-                { value: 'analytical', label: 'Analítico y detallista', weight: { tech: 2, chemical: 3, engineering: 2 } },
-                { value: 'leader', label: 'Líder natural y carismático', weight: { management: 3, admin: 2 } },
-                { value: 'practical', label: 'Práctico y orientado a resultados', weight: { engineering: 3, civil: 2 } },
-                { value: 'innovative', label: 'Innovador y visionario', weight: { tech: 3, management: 2, engineering: 1 } }
+                {
+                    value: 'a',
+                    label: 'Logico, curioso y apasionado por la tecnologia',
+                    weight: { sistemas: 3, tics: 2, electrica: 2 }
+                },
+                {
+                    value: 'b',
+                    label: 'Creativo, observador y con buena vision espacial',
+                    weight: { arquitectura: 3, civil: 2, biologia: 1 }
+                },
+                {
+                    value: 'c',
+                    label: 'Emprendedor, persuasivo y con mentalidad de lider',
+                    weight: { gestion: 3, ingAdministracion: 3, administracion: 2 }
+                },
+                {
+                    value: 'd',
+                    label: 'Meticuloso, responsable y orientado a los numeros',
+                    weight: { contaduria: 3, administracion: 1, electrica: 1 }
+                }
+            ]
+        },
+        {
+            id: 9,
+            category: 'values',
+            question: 'Que valoras mas en una carrera profesional?',
+            options: [
+                {
+                    value: 'a',
+                    label: 'Innovacion constante y estar a la vanguardia tecnologica',
+                    weight: { sistemas: 2, tics: 3, electrica: 2, arquitectura: 1 }
+                },
+                {
+                    value: 'b',
+                    label: 'Estabilidad economica y alta demanda laboral',
+                    weight: { contaduria: 3, civil: 2, ingAdministracion: 2 }
+                },
+                {
+                    value: 'c',
+                    label: 'Independencia para emprender y generar impacto social',
+                    weight: { gestion: 3, administracion: 2, ingAdministracion: 2 }
+                },
+                {
+                    value: 'd',
+                    label: 'Contribuir a la ciencia y la conservacion del planeta',
+                    weight: { biologia: 3, arquitectura: 1, electrica: 1 }
+                }
+            ]
+        },
+        {
+            id: 10,
+            category: 'future_vision',
+            question: 'Que impacto quieres dejar en el mundo?',
+            options: [
+                {
+                    value: 'a',
+                    label: 'Transformar la sociedad con soluciones digitales y conectividad',
+                    weight: { sistemas: 2, tics: 3, electrica: 2 }
+                },
+                {
+                    value: 'b',
+                    label: 'Crear espacios y edificaciones que mejoren la calidad de vida',
+                    weight: { arquitectura: 3, civil: 3 }
+                },
+                {
+                    value: 'c',
+                    label: 'Impulsar la economia generando empleos y empresas competitivas',
+                    weight: { gestion: 2, ingAdministracion: 3, contaduria: 2, administracion: 2 }
+                },
+                {
+                    value: 'd',
+                    label: 'Preservar ecosistemas y garantizar un futuro sustentable',
+                    weight: { biologia: 3, arquitectura: 1 }
+                }
             ]
         }
     ];
 
-    // Definición de carreras con sus características
-    const careers = {
-        tech: {
-            name: 'Ingeniería en Tecnologías de la Información y Comunicaciones',
-            description: 'Desarrolla software, administra redes y sistemas, implementa soluciones tecnológicas innovadoras.',
-            duration: '9 semestres',
-            opportunities: ['Desarrollador de Software', 'Administrador de Redes', 'Consultor en TI', 'Arquitecto de Software'],
-            skills: ['Programación', 'Análisis de Sistemas', 'Bases de Datos', 'Ciberseguridad'],
-            icon: 'fas fa-laptop-code',
-            color: '#3b82f6'
-        },
-        engineering: {
-            name: 'Ingeniería Industrial',
-            description: 'Optimiza procesos, mejora la productividad y gestiona la calidad en organizaciones.',
-            duration: '9 semestres',
-            opportunities: ['Ingeniero de Procesos', 'Consultor en Calidad', 'Gerente de Producción', 'Analista de Procesos'],
-            skills: ['Optimización', 'Gestión de Calidad', 'Estadística', 'Lean Manufacturing'],
-            icon: 'fas fa-industry',
-            color: '#ef4444'
-        },
-        management: {
-            name: 'Ingeniería en Gestión Empresarial',
-            description: 'Administra empresas, desarrolla estrategias de negocio y lidera equipos de trabajo.',
-            duration: '9 semestres',
-            opportunities: ['Gerente Empresarial', 'Consultor de Negocios', 'Emprendedor', 'Director de Proyectos'],
-            skills: ['Liderazgo', 'Estrategia', 'Finanzas', 'Mercadotecnia'],
-            icon: 'fas fa-chart-line',
-            color: '#10b981'
-        },
-        admin: {
-            name: 'Licenciatura en Administración',
-            description: 'Gestiona recursos humanos, coordina operaciones y desarrolla organizaciones.',
-            duration: '8 semestres',
-            opportunities: ['Administrador General', 'Coordinador de RRHH', 'Analista Organizacional', 'Supervisor Administrativo'],
-            skills: ['Administración', 'Recursos Humanos', 'Contabilidad', 'Organización'],
-            icon: 'fas fa-users-cog',
-            color: '#f59e0b'
-        },
-        civil: {
-            name: 'Ingeniería Civil',
-            description: 'Diseña y construye infraestructura, supervisa obras y desarrolla proyectos urbanos.',
-            duration: '10 semestres',
-            opportunities: ['Ingeniero Civil', 'Supervisor de Obra', 'Consultor Estructural', 'Diseñador de Proyectos'],
-            skills: ['Diseño Estructural', 'Construcción', 'Topografía', 'Materiales'],
-            icon: 'fas fa-hard-hat',
-            color: '#8b5cf6'
-        },
-        chemical: {
-            name: 'Ingeniería Química',
-            description: 'Desarrolla procesos químicos, investiga materiales y trabaja en biotecnología.',
-            duration: '9 semestres',
-            opportunities: ['Ingeniero de Procesos Químicos', 'Investigador', 'Consultor Ambiental', 'Especialista en Materiales'],
-            skills: ['Procesos Químicos', 'Biotecnología', 'Análisis de Materiales', 'Investigación'],
-            icon: 'fas fa-flask',
-            color: '#06b6d4'
-        }
-    };
-
-    // Procesar respuestas y calcular resultados
+    // ---------------------------------------------------------------
+    // Score calculation
+    // ---------------------------------------------------------------
     const processAnswers = () => {
         setIsProcessing(true);
-        
-        // Simular procesamiento con IA
-        setTimeout(() => {
+        setCurrentStep('processing');
+        setActiveProcessingStep(0);
+
+        // Animate processing steps
+        const timers = [];
+        timers.push(setTimeout(() => setActiveProcessingStep(1), 800));
+        timers.push(setTimeout(() => setActiveProcessingStep(2), 1600));
+
+        timers.push(setTimeout(() => {
             const scores = {};
-            
-            // Inicializar scores
             Object.keys(careers).forEach(key => {
                 scores[key] = 0;
             });
 
-            // Calcular puntajes basados en respuestas
+            // Accumulate weights from every answered question
             Object.values(answers).forEach(answer => {
                 const question = questions.find(q => q.id === answer.questionId);
+                if (!question) return;
                 const selectedOption = question.options.find(opt => opt.value === answer.value);
-                
-                Object.entries(selectedOption.weight).forEach(([career, weight]) => {
-                    scores[career] = (scores[career] || 0) + weight;
+                if (!selectedOption) return;
+
+                Object.entries(selectedOption.weight).forEach(([careerKey, weight]) => {
+                    if (scores[careerKey] !== undefined) {
+                        scores[careerKey] += weight;
+                    }
                 });
             });
 
-            // Ordenar carreras por puntaje
+            // Determine the theoretical max score (if every question gave 3 to a career)
+            const maxPossible = questions.length * 3;
+
+            // Build sorted list, normalise to percentage (cap 95 %)
             const sortedCareers = Object.entries(scores)
-                .sort(([,a], [,b]) => b - a)
+                .sort(([, a], [, b]) => b - a)
                 .slice(0, 3)
                 .map(([careerKey, score]) => ({
                     ...careers[careerKey],
                     key: careerKey,
                     score,
-                    compatibility: Math.min(Math.round((score / 24) * 100), 95) // Normalizar a porcentaje
+                    compatibility: Math.min(Math.round((score / maxPossible) * 100), 95)
                 }));
 
             setResults(sortedCareers);
             setIsProcessing(false);
             setCurrentStep('results');
-        }, 2000);
+        }, 2400));
+
+        // Cleanup on unmount (safety)
+        return () => timers.forEach(clearTimeout);
     };
 
-    // Manejar respuesta de pregunta
+    // ---------------------------------------------------------------
+    // Handle an answer selection
+    // ---------------------------------------------------------------
     const handleAnswer = (questionId, value) => {
         setAnswers(prev => ({
             ...prev,
@@ -214,36 +564,40 @@ function VocationalTest() {
         }
     };
 
-    // Componentes del test
+    // ---------------------------------------------------------------
+    // Sub-components
+    // ---------------------------------------------------------------
+
     const IntroComponent = () => (
-        <div className="test-intro">
-            <div className="intro-content">
-                <div className="intro-icon">
-                    <i className="fas fa-brain"></i>
+        <div className="vt-intro">
+            <div className="vt-intro-content">
+                <div className="vt-intro-icon">
+                    <i className="fas fa-graduation-cap"></i>
                 </div>
-                <h3>Test Vocacional Inteligente</h3>
-                <p>
-                    Descubre qué carrera del TecNM Chetumal se adapta mejor a tu perfil. 
-                    Nuestro sistema analiza tus respuestas para darte recomendaciones personalizadas.
+                <h3 className="vt-intro-title">Test Vocacional</h3>
+                <p className="vt-intro-description">
+                    Descubre cual de las 10 carreras del Instituto Tecnologico de Chetumal
+                    se alinea mejor con tu perfil, intereses y habilidades.
                 </p>
-                <div className="test-features">
-                    <div className="feature">
+                <div className="vt-features">
+                    <div className="vt-feature">
+                        <i className="fas fa-list-ol"></i>
+                        <span>10 preguntas</span>
+                    </div>
+                    <div className="vt-feature">
                         <i className="fas fa-clock"></i>
-                        <span>8 preguntas - 5 minutos</span>
+                        <span>5 minutos</span>
                     </div>
-                    <div className="feature">
-                        <i className="fas fa-chart-bar"></i>
-                        <span>Análisis personalizado</span>
-                    </div>
-                    <div className="feature">
-                        <i className="fas fa-graduation-cap"></i>
-                        <span>Recomendaciones de carreras</span>
+                    <div className="vt-feature">
+                        <i className="fas fa-user-check"></i>
+                        <span>Resultado personalizado</span>
                     </div>
                 </div>
-                <button 
-                    className="btn btn-primary btn-lg"
+                <button
+                    className="btn btn-primary btn-lg vt-start-btn"
                     onClick={() => setCurrentStep('questions')}
                 >
+                    <i className="fas fa-play"></i>
                     Comenzar Test
                 </button>
             </div>
@@ -255,28 +609,29 @@ function VocationalTest() {
         const progress = ((currentQuestion + 1) / questions.length) * 100;
 
         return (
-            <div className="test-question">
-                <div className="question-header">
-                    <div className="progress-bar">
-                        <div className="progress-fill" style={{width: `${progress}%`}}></div>
+            <div className="vt-question">
+                <div className="vt-question-header">
+                    <div className="vt-progress-bar">
+                        <div
+                            className="vt-progress-fill"
+                            style={{ width: progress + '%' }}
+                        ></div>
                     </div>
-                    <div className="question-counter">
+                    <div className="vt-question-counter">
                         Pregunta {currentQuestion + 1} de {questions.length}
                     </div>
                 </div>
-                <div className="question-content">
-                    <h3>{question.question}</h3>
-                    <div className="options">
+                <div className="vt-question-body">
+                    <h3 className="vt-question-text">{question.question}</h3>
+                    <div className="vt-options">
                         {question.options.map((option, index) => (
                             <button
-                                key={index}
-                                className="option-btn"
+                                key={option.value}
+                                className="vt-option-btn"
                                 onClick={() => handleAnswer(question.id, option.value)}
                             >
-                                <div className="option-content">
-                                    <span>{option.label}</span>
-                                    <i className="fas fa-arrow-right"></i>
-                                </div>
+                                <span className="vt-option-label">{option.label}</span>
+                                <i className="fas fa-arrow-right vt-option-arrow"></i>
                             </button>
                         ))}
                     </div>
@@ -286,23 +641,25 @@ function VocationalTest() {
     };
 
     const ProcessingComponent = () => (
-        <div className="test-processing">
-            <div className="processing-content">
-                <div className="processing-spinner">
-                    <div className="spinner"></div>
+        <div className="vt-processing">
+            <div className="vt-processing-content">
+                <div className="vt-spinner-wrapper">
+                    <div className="vt-spinner"></div>
                 </div>
-                <h3>Analizando tus respuestas...</h3>
-                <p>Nuestro sistema de inteligencia artificial está procesando tu perfil vocacional</p>
-                <div className="processing-steps">
-                    <div className="step active">
+                <h3 className="vt-processing-title">Analizando tus respuestas...</h3>
+                <p className="vt-processing-subtitle">
+                    Estamos evaluando tu perfil vocacional con base en tus respuestas.
+                </p>
+                <div className="vt-processing-steps">
+                    <div className={'vt-step' + (activeProcessingStep >= 0 ? ' active' : '')}>
                         <i className="fas fa-user-check"></i>
                         <span>Analizando perfil</span>
                     </div>
-                    <div className="step active">
-                        <i className="fas fa-brain"></i>
-                        <span>Procesando IA</span>
+                    <div className={'vt-step' + (activeProcessingStep >= 1 ? ' active' : '')}>
+                        <i className="fas fa-cogs"></i>
+                        <span>Procesando datos</span>
                     </div>
-                    <div className="step">
+                    <div className={'vt-step' + (activeProcessingStep >= 2 ? ' active' : '')}>
                         <i className="fas fa-chart-pie"></i>
                         <span>Generando resultados</span>
                     </div>
@@ -312,53 +669,80 @@ function VocationalTest() {
     );
 
     const ResultsComponent = () => (
-        <div className="test-results">
-            <div className="results-header">
-                <div className="results-icon">
+        <div className="vt-results">
+            <div className="vt-results-header">
+                <div className="vt-results-icon">
                     <i className="fas fa-trophy"></i>
                 </div>
-                <h3>¡Resultados de tu Test Vocacional!</h3>
-                <p>Basado en tu perfil, estas son las carreras más compatibles contigo:</p>
+                <h3 className="vt-results-title">Resultados de tu Test Vocacional</h3>
+                <p className="vt-results-subtitle">
+                    Basado en tu perfil, estas son las carreras mas compatibles contigo:
+                </p>
             </div>
-            
-            <div className="results-content">
-                {results?.map((career, index) => (
-                    <div key={career.key} className={`career-result ${index === 0 ? 'best-match' : ''}`}>
-                        <div className="result-header">
-                            <div className="result-icon" style={{background: career.color}}>
+
+            <div className="vt-results-list">
+                {results.map((career, index) => (
+                    <div
+                        key={career.key}
+                        className={'vt-career-card' + (index === 0 ? ' vt-best-match' : '')}
+                    >
+                        <div className="vt-career-top">
+                            <div
+                                className="vt-career-icon"
+                                style={{ backgroundColor: career.color }}
+                            >
                                 <i className={career.icon}></i>
                             </div>
-                            <div className="result-info">
-                                <div className="compatibility">
-                                    <span>{career.compatibility}% Compatible</span>
-                                    {index === 0 && <span className="best-badge">Mejor opción</span>}
+                            <div className="vt-career-compat">
+                                <div className="vt-compat-row">
+                                    <span className="vt-compat-pct">
+                                        {career.compatibility}% Compatible
+                                    </span>
+                                    {index === 0 && (
+                                        <span className="vt-best-badge">Mejor opcion</span>
+                                    )}
                                 </div>
-                                <div className="compatibility-bar">
-                                    <div 
-                                        className="compatibility-fill" 
-                                        style={{width: `${career.compatibility}%`, background: career.color}}
+                                <div className="vt-compat-bar">
+                                    <div
+                                        className="vt-compat-fill"
+                                        style={{
+                                            width: career.compatibility + '%',
+                                            backgroundColor: career.color
+                                        }}
                                     ></div>
                                 </div>
                             </div>
                         </div>
-                        <div className="result-content">
-                            <h4>{career.name}</h4>
-                            <p>{career.description}</p>
-                            <div className="career-details">
-                                <div className="detail">
+
+                        <div className="vt-career-body">
+                            <h4 className="vt-career-name">{career.name}</h4>
+                            <p className="vt-career-desc">{career.description}</p>
+
+                            <div className="vt-career-meta">
+                                <div className="vt-meta-item">
                                     <i className="fas fa-clock"></i>
-                                    <span>Duración: {career.duration}</span>
+                                    <span>Duracion: {career.duration}</span>
                                 </div>
-                                <div className="detail">
-                                    <i className="fas fa-tools"></i>
-                                    <span>Habilidades: {career.skills.slice(0, 2).join(', ')}</span>
+                                <div className="vt-meta-item">
+                                    <i className="fas fa-university"></i>
+                                    <span>Modalidad: {career.modality.join(', ')}</span>
                                 </div>
                             </div>
-                            <div className="opportunities">
-                                <h5>Oportunidades laborales:</h5>
-                                <div className="opportunities-list">
-                                    {career.opportunities.slice(0, 3).map((opp, i) => (
-                                        <span key={i} className="opportunity-tag">{opp}</span>
+
+                            <div className="vt-career-skills">
+                                <h5>Habilidades clave:</h5>
+                                <div className="vt-tags">
+                                    {career.skills.map((skill, i) => (
+                                        <span key={i} className="vt-tag vt-tag-skill">{skill}</span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="vt-career-opps">
+                                <h5>Campo laboral:</h5>
+                                <div className="vt-tags">
+                                    {career.opportunities.map((opp, i) => (
+                                        <span key={i} className="vt-tag vt-tag-opp">{opp}</span>
                                     ))}
                                 </div>
                             </div>
@@ -367,21 +751,26 @@ function VocationalTest() {
                 ))}
             </div>
 
-            <div className="results-actions">
-                <button 
+            <div className="vt-results-actions">
+                <button
                     className="btn btn-primary"
-                    onClick={() => scrollToSection('informacion')}
+                    onClick={() => {
+                        var section = document.getElementById('informacion');
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }}
                 >
                     <i className="fas fa-phone"></i>
-                    Contactar para más información
+                    Contactar para mas informacion
                 </button>
-                <button 
+                <button
                     className="btn btn-outline-primary"
                     onClick={() => {
                         setCurrentStep('intro');
                         setCurrentQuestion(0);
                         setAnswers({});
-                        setResults(null);
+                        setResults([]);
                     }}
                 >
                     <i className="fas fa-redo"></i>
@@ -391,443 +780,21 @@ function VocationalTest() {
         </div>
     );
 
-    // Render principal
+    // ---------------------------------------------------------------
+    // Main render
+    // ---------------------------------------------------------------
     return (
         <div className="vocational-test">
             {currentStep === 'intro' && <IntroComponent />}
             {currentStep === 'questions' && <QuestionComponent />}
-            {isProcessing && <ProcessingComponent />}
+            {currentStep === 'processing' && <ProcessingComponent />}
             {currentStep === 'results' && <ResultsComponent />}
         </div>
     );
 }
 
-// Renderizar el componente
-const testContainer = document.getElementById('vocational-test-root');
-if (testContainer) {
-    ReactDOM.render(<VocationalTest />, testContainer);
-}
-
-// CSS adicional para el test vocacional
-const testStyles = `
-<style>
-.vocational-test {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.test-intro {
-    text-align: center;
-    padding: 3rem 2rem;
-}
-
-.intro-icon {
-    font-size: 4rem;
-    color: var(--primary-orange);
-    margin-bottom: 1.5rem;
-}
-
-.intro-content h3 {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    color: var(--text-dark);
-    margin-bottom: 1rem;
-}
-
-.intro-content p {
-    font-size: 1.2rem;
-    color: var(--text-gray);
-    margin-bottom: 2rem;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.test-features {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-bottom: 2.5rem;
-    flex-wrap: wrap;
-}
-
-.feature {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-gray);
-    font-weight: 500;
-}
-
-.feature i {
-    color: var(--primary-blue);
-}
-
-.test-question {
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-soft);
-    overflow: hidden;
-}
-
-.question-header {
-    background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-    color: white;
-    padding: 1.5rem;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
-    margin-bottom: 1rem;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: var(--primary-orange);
-    transition: width 0.3s ease;
-}
-
-.question-counter {
-    font-weight: 600;
-    opacity: 0.9;
-}
-
-.question-content {
-    padding: 2.5rem;
-}
-
-.question-content h3 {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    color: var(--text-dark);
-    margin-bottom: 2rem;
-    line-height: 1.4;
-}
-
-.options {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.option-btn {
-    background: var(--bg-light);
-    border: 2px solid transparent;
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
-    text-align: left;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.option-btn:hover {
-    background: white;
-    border-color: var(--primary-blue);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-soft);
-}
-
-.option-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.option-content span {
-    color: var(--text-dark);
-    font-weight: 500;
-}
-
-.option-content i {
-    color: var(--primary-orange);
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s ease;
-}
-
-.option-btn:hover .option-content i {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.test-processing {
-    text-align: center;
-    padding: 4rem 2rem;
-}
-
-.processing-spinner {
-    margin-bottom: 2rem;
-}
-
-.spinner {
-    width: 80px;
-    height: 80px;
-    border: 4px solid var(--bg-light);
-    border-top: 4px solid var(--primary-orange);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto;
-}
-
-.processing-content h3 {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    color: var(--text-dark);
-    margin-bottom: 1rem;
-}
-
-.processing-content p {
-    color: var(--text-gray);
-    margin-bottom: 3rem;
-}
-
-.processing-steps {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
-
-.step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
-}
-
-.step.active {
-    opacity: 1;
-}
-
-.step i {
-    font-size: 2rem;
-    color: var(--primary-blue);
-}
-
-.test-results {
-    padding: 2rem 0;
-}
-
-.results-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.results-icon {
-    font-size: 4rem;
-    color: var(--primary-orange);
-    margin-bottom: 1.5rem;
-}
-
-.results-header h3 {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    color: var(--text-dark);
-    margin-bottom: 1rem;
-}
-
-.results-header p {
-    font-size: 1.2rem;
-    color: var(--text-gray);
-}
-
-.career-result {
-    background: white;
-    border-radius: var(--border-radius);
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow-soft);
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.career-result:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-strong);
-}
-
-.career-result.best-match {
-    border-color: var(--primary-orange);
-    position: relative;
-}
-
-.career-result.best-match::before {
-    content: '👑';
-    position: absolute;
-    top: -10px;
-    right: 20px;
-    font-size: 2rem;
-}
-
-.result-header {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-    align-items: center;
-}
-
-.result-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    flex-shrink: 0;
-}
-
-.result-info {
-    flex: 1;
-}
-
-.compatibility {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-    align-items: center;
-}
-
-.compatibility span:first-child {
-    font-weight: 600;
-    color: var(--text-dark);
-}
-
-.best-badge {
-    background: var(--primary-orange);
-    color: white;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.compatibility-bar {
-    width: 100%;
-    height: 8px;
-    background: var(--bg-light);
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.compatibility-fill {
-    height: 100%;
-    transition: width 0.8s ease;
-}
-
-.result-content h4 {
-    font-family: var(--font-display);
-    font-size: 1.3rem;
-    color: var(--text-dark);
-    margin-bottom: 0.75rem;
-}
-
-.result-content p {
-    color: var(--text-gray);
-    margin-bottom: 1rem;
-}
-
-.career-details {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.detail {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--text-gray);
-}
-
-.detail i {
-    color: var(--primary-blue);
-}
-
-.opportunities h5 {
-    font-size: 1rem;
-    color: var(--text-dark);
-    margin-bottom: 0.75rem;
-    font-weight: 600;
-}
-
-.opportunities-list {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.opportunity-tag {
-    background: var(--light-orange);
-    color: var(--primary-orange);
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.results-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 3rem;
-    flex-wrap: wrap;
-}
-
-@media (max-width: 768px) {
-    .test-features {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .question-content {
-        padding: 2rem 1.5rem;
-    }
-    
-    .option-btn {
-        padding: 1rem;
-    }
-    
-    .career-result {
-        padding: 1.5rem;
-    }
-    
-    .result-header {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .career-details {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .results-actions {
-        flex-direction: column;
-    }
-    
-    .processing-steps {
-        flex-direction: column;
-        gap: 1rem;
-    }
-}
-</style>
-`;
-
-// Inyectar estilos del test
-if (!document.querySelector('#test-styles')) {
-    const styleElement = document.createElement('style');
-    styleElement.id = 'test-styles';
-    styleElement.innerHTML = testStyles.replace(/<style>|<\/style>/g, '');
-    document.head.appendChild(styleElement);
+// Mount into DOM
+var vtRoot = document.getElementById('vocational-test-root');
+if (vtRoot) {
+    ReactDOM.render(<VocationalTest />, vtRoot);
 }
