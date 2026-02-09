@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecNM Chetumal - Plataforma Interactiva Educativa</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- React CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#inicio">
+                <div class="logo-container">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>TecNM Chetumal</span>
+                </div>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Carreras
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#carreras">Todas las Carreras</a></li>
+                            <li><a class="dropdown-item" href="#test-vocacional">Test Vocacional</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#recorrido-virtual">Recorrido Virtual</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#informacion">Información</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-light btn-sm" id="chat-toggle">
+                            <i class="fas fa-robot"></i> Asistente
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+        <div class="hero-background">
+            <div class="geometric-pattern"></div>
+        </div>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <span class="hero-badge">Tecnológico Nacional de México</span>
+                        <h1 class="hero-title">
+                            Instituto Tecnológico de 
+                            <span class="text-gradient">Chetumal</span>
+                        </h1>
+                        <p class="hero-description">
+                            Descubre tu futuro profesional en la institución líder en formación tecnológica 
+                            de la región. Explora nuestras carreras, recorre virtualmente nuestras instalaciones 
+                            y encuentra tu vocación con nuestro asistente inteligente.
+                        </p>
+                        <div class="hero-actions">
+                            <button class="btn btn-primary btn-lg me-3" onclick="scrollToSection('test-vocacional')">
+                                <i class="fas fa-brain"></i> Test Vocacional
+                            </button>
+                            <button class="btn btn-outline-primary btn-lg" onclick="scrollToSection('recorrido-virtual')">
+                                <i class="fas fa-vr-cardboard"></i> Recorrido 360°
+                            </button>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">12</span>
+                                <span class="stat-label">Carreras</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">3000+</span>
+                                <span class="stat-label">Estudiantes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">40+</span>
+                                <span class="stat-label">Años</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-visual">
+                        <div class="floating-card card-1">
+                            <i class="fas fa-laptop-code"></i>
+                            <span>Tecnologías</span>
+                        </div>
+                        <div class="floating-card card-2">
+                            <i class="fas fa-industry"></i>
+                            <span>Industrial</span>
+                        </div>
+                        <div class="floating-card card-3">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Gestión</span>
+                        </div>
+                        <div class="hero-image">
+                            <div class="tech-circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recorrido Virtual Section -->
+    <section id="recorrido-virtual" class="section-padding bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Innovación Virtual</span>
+                    <h2 class="section-title">Recorrido Virtual 360°</h2>
+                    <p class="section-description">
+                        Explora nuestras instalaciones desde cualquier lugar del mundo con tecnología de realidad virtual inmersiva
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="virtual-tour-container">
+                        <div class="tour-frame">
+                            <iframe 
+                                class="ku-embed" 
+                                frameborder="0" 
+                                allow="xr-spatial-tracking; gyroscope; accelerometer" 
+                                allowfullscreen 
+                                scrolling="no" 
+                                src="https://kuula.co/share/collection/7cwwW?logo=1&info=1&fs=1&vr=0&zoom=1&sd=1&thumbs=0&inst=0&keys=0">
+                            </iframe>
+                        </div>
+                        <div class="tour-controls">
+                            <div class="row text-center">
+                                <div class="col-md-3">
+                                    <div class="control-item">
+                                        <i class="fas fa-mouse"></i>
+                                        <span>Arrastra para explorar</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-item">
+                                        <i class="fas fa-search-plus"></i>
+                                        <span>Zoom con scroll</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-item">
+                                        <i class="fas fa-expand"></i>
+                                        <span>Pantalla completa</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-item">
+                                        <i class="fas fa-vr-cardboard"></i>
+                                        <span>Modo VR disponible</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Vocacional Section -->
+    <section id="test-vocacional" class="section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Orientación Profesional</span>
+                    <h2 class="section-title">Test Vocacional Inteligente</h2>
+                    <p class="section-description">
+                        Descubre qué carrera se adapta mejor a tu perfil con nuestro sistema de evaluación basado en inteligencia artificial
+                    </p>
+                </div>
+            </div>
+            <div id="vocational-test-root"></div>
+        </div>
+    </section>
+
+    <!-- Carreras Section -->
+    <section id="carreras" class="section-padding bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Oferta Académica</span>
+                    <h2 class="section-title">Nuestras Carreras</h2>
+                    <p class="section-description">
+                        Programas educativos de vanguardia diseñados para formar profesionales competitivos a nivel nacional e internacional
+                    </p>
+                </div>
+            </div>
+            <div id="careers-grid" class="row">
+                <!-- Las carreras se cargarán dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Información Section -->
+    <section id="informacion" class="section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="section-title mb-4">¿Por qué elegirnos?</h2>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Acreditación Nacional</h4>
+                                <p>Programas reconocidos por organismos evaluadores nacionales</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-industry"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Vinculación Industrial</h4>
+                                <p>Convenios con empresas líderes para prácticas profesionales</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-microscope"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Laboratorios Especializados</h4>
+                                <p>Infraestructura de vanguardia para formación práctica</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="contact-card">
+                        <h3>Contáctanos</h3>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Av. Insurgentes 330, Chetumal, Q.R.</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+52 983 832 1060</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>vinculacion@itchetumal.edu.mx</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-globe"></i>
+                                <span>www.itchetumal.edu.mx</span>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="footer-logo">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>TecNM Chetumal</span>
+                    </div>
+                    <p class="footer-text">
+                        Formando profesionales competitivos con tecnología de vanguardia
+                    </p>
+                    <div class="footer-links">
+                        <a href="#inicio">Inicio</a>
+                        <a href="#carreras">Carreras</a>
+                        <a href="#recorrido-virtual">Recorrido Virtual</a>
+                        <a href="#informacion">Contacto</a>
+                    </div>
+                    <p class="copyright">
+                        © 2025 Instituto Tecnológico de Chetumal - TecNM. Todos los derechos reservados.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Assistant Modal -->
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            <div class="chat-title">
+                <i class="fas fa-robot"></i>
+                <span>Asistente Virtual TecNM</span>
+            </div>
+            <button class="chat-close" id="chat-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    ¡Hola! Soy tu asistente virtual del TecNM Chetumal. ¿En qué puedo ayudarte hoy? Puedo responder preguntas sobre:
+                    <ul>
+                        <li>Oferta educativa y carreras</li>
+                        <li>Proceso de admisión</li>
+                        <li>Instalaciones y servicios</li>
+                        <li>Requisitos y trámites</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input-field" placeholder="Escribe tu pregunta aquí...">
+            <button id="chat-send-btn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/chat-assistant.js"></script>
+    <script type="text/babel" src="js/vocational-test.js"></script>
+    
+</body>
+</html>
