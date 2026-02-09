@@ -31,10 +31,8 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
 
-    <!-- React CDN -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- AOS (Animate on Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <!-- Skip to content for accessibility -->
@@ -78,6 +76,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#recorrido-virtual">Recorrido 360°</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#vida-estudiantil">Campus</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contacto">Contacto</a>
@@ -199,15 +200,23 @@
                         <div class="about-timeline">
                             <div class="timeline-item">
                                 <div class="timeline-year">1972</div>
-                                <div class="timeline-text">Se funda el Centro de Estudios Científicos y Tecnológicos #165 en Chetumal</div>
+                                <div class="timeline-text">Se funda el Centro de Estudios Científicos y Tecnológicos #165 en Chetumal, semilla del futuro tecnológico</div>
                             </div>
                             <div class="timeline-item">
                                 <div class="timeline-year">1975</div>
-                                <div class="timeline-text">El 8 de octubre inicia labores el Instituto Tecnológico Regional de Chetumal, primera institución de educación superior en el Estado</div>
+                                <div class="timeline-text">El 8 de octubre inicia labores el Instituto Tecnológico Regional de Chetumal, primera institución de educación superior en Quintana Roo</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">2014</div>
+                                <div class="timeline-text">Se integra al Tecnológico Nacional de México (TecNM), el sistema de educación superior tecnológica más grande de Latinoamérica</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">2020</div>
+                                <div class="timeline-text">Obtiene triple certificación ISO (9001, 14001, 45001) y reconocimiento PNPC en sus 4 posgrados</div>
                             </div>
                             <div class="timeline-item">
                                 <div class="timeline-year">Hoy</div>
-                                <div class="timeline-text">10 carreras de licenciatura, 4 posgrados con reconocimiento PNPC y certificaciones ISO 9001, 14001 y 45001</div>
+                                <div class="timeline-text">10 carreras de licenciatura, 4 posgrados, +3,400 estudiantes, y casi 50 años formando profesionales de excelencia</div>
                             </div>
                         </div>
                     </div>
@@ -343,8 +352,97 @@
         </div>
     </section>
 
+    <!-- Vida Estudiantil Section -->
+    <section id="vida-estudiantil" class="section-padding" aria-label="Vida estudiantil">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Campus</span>
+                    <h2 class="section-title">Vida Estudiantil</h2>
+                    <p class="section-description">
+                        Mas que una universidad, somos una comunidad. Descubre todo lo que puedes vivir en el ITChetumal
+                    </p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="vida-card">
+                        <div class="vida-card-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                            <i class="fas fa-futbol"></i>
+                        </div>
+                        <h4>Deportes</h4>
+                        <p>Equipos representativos de futbol, basquetbol, voleibol y atletismo. Canchas deportivas y torneos interTecNM.</p>
+                        <div class="vida-card-tags">
+                            <span>Futbol</span><span>Basquetbol</span><span>Voleibol</span><span>Atletismo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="vida-card">
+                        <div class="vida-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h4>Cultura y Arte</h4>
+                        <p>Talleres de danza, musica, teatro y artes plasticas. Eventos culturales y participacion en festivales regionales.</p>
+                        <div class="vida-card-tags">
+                            <span>Danza</span><span>Musica</span><span>Teatro</span><span>Arte</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="vida-card">
+                        <div class="vida-card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h4>Clubes y Proyectos</h4>
+                        <p>Clubes de programacion, robotica, emprendimiento y ciencia. Participa en hackatones y concursos nacionales.</p>
+                        <div class="vida-card-tags">
+                            <span>Programacion</span><span>Robotica</span><span>Emprendimiento</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="vida-card">
+                        <div class="vida-card-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <i class="fas fa-plane-departure"></i>
+                        </div>
+                        <h4>Movilidad Internacional</h4>
+                        <p>Programas de intercambio academico, estancias de verano en el extranjero y residencias profesionales internacionales.</p>
+                        <div class="vida-card-tags">
+                            <span>Intercambio</span><span>Verano</span><span>Residencias</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="vida-card">
+                        <div class="vida-card-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Eventos y Congresos</h4>
+                        <p>Semana Nacional de Ciencia, congresos por carrera, ferias de emprendimiento y expo-tecnologica anual.</p>
+                        <div class="vida-card-tags">
+                            <span>Congresos</span><span>Ferias</span><span>Expo-Tec</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="vida-card">
+                        <div class="vida-card-icon" style="background: linear-gradient(135deg, #0891b2, #0e7490);">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4>Bienestar Estudiantil</h4>
+                        <p>Servicio medico gratuito, seguro de vida contra accidentes, tutoriales academicos y atencion psicologica.</p>
+                        <div class="vida-card-tags">
+                            <span>Salud</span><span>Seguro</span><span>Tutorias</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Posgrados Section -->
-    <section id="posgrados" class="section-padding" aria-label="Programas de posgrado">
+    <section id="posgrados" class="section-padding bg-light" aria-label="Programas de posgrado">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center mb-5">
@@ -469,8 +567,172 @@
         </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section id="faq" class="section-padding" aria-label="Preguntas frecuentes">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Dudas</span>
+                    <h2 class="section-title">Preguntas Frecuentes</h2>
+                    <p class="section-description">Resolvemos las dudas mas comunes de nuestros aspirantes</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="accordion faq-accordion" id="faqAccordion">
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                                    <i class="fas fa-question-circle faq-icon"></i>
+                                    &iquest;Cual es el costo total de una carrera?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body faq-body">
+                                    El costo total de una carrera de 9 semestres (4.5 a&ntilde;os) es de aproximadamente <strong>$20,898 MXN</strong>. La inscripci&oacute;n semestral es de $2,322 MXN, lo que hace al ITChetumal una de las opciones m&aacute;s accesibles de educaci&oacute;n superior en Quintana Roo.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                                    <i class="fas fa-question-circle faq-icon"></i>
+                                    &iquest;Que examen de admisi&oacute;n se aplica?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body faq-body">
+                                    Se aplica el examen <strong>CENEVAL (EXANI-II)</strong>. Despu&eacute;s de pagar tu ficha de admisi&oacute;n ($480 MXN), debes registrarte en CENEVAL 2 d&iacute;as h&aacute;biles despu&eacute;s y descargar la gu&iacute;a de estudio para prepararte.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                                    <i class="fas fa-question-circle faq-icon"></i>
+                                    &iquest;Hay carreras a distancia?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body faq-body">
+                                    S&iacute;, ofrecemos 3 carreras con modalidad a distancia: <strong>Contador P&uacute;blico</strong>, <strong>Ingenier&iacute;a en Administraci&oacute;n</strong> (distancia mixta) e <strong>Ingenier&iacute;a en Gesti&oacute;n Empresarial</strong>. Tienen la misma validez oficial que la modalidad presencial.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                                    <i class="fas fa-question-circle faq-icon"></i>
+                                    &iquest;Qu&eacute; becas est&aacute;n disponibles?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body faq-body">
+                                    Contamos con <strong>becas por excelencia acad&eacute;mica</strong>, <strong>becas de manutenci&oacute;n</strong> y <strong>becas para madres solteras</strong>. Estas pueden cubrir parcial o totalmente tu inscripci&oacute;n semestral. Contacta a servicios escolares para m&aacute;s informaci&oacute;n.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                                    <i class="fas fa-question-circle faq-icon"></i>
+                                    &iquest;Cu&aacute;nto duran las carreras?
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body faq-body">
+                                    Todas nuestras <strong>10 carreras</strong> tienen duraci&oacute;n de <strong>9 semestres</strong> (4 a&ntilde;os y medio). Los periodos escolares son agosto-diciembre y enero-junio.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                                    <i class="fas fa-question-circle faq-icon"></i>
+                                    &iquest;Qu&eacute; documentos necesito para inscribirme?
+                                </button>
+                            </h2>
+                            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body faq-body">
+                                    Necesitas: <strong>Certificado de bachillerato</strong>, <strong>comprobante de domicilio</strong>, <strong>CURP</strong>, <strong>identificaci&oacute;n oficial</strong>, acta de nacimiento, 6 fotograf&iacute;as tama&ntilde;o infantil y comprobante de pago de ficha.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                                    <i class="fas fa-question-circle faq-icon"></i>
+                                    &iquest;Ofrecen posgrados?
+                                </button>
+                            </h2>
+                            <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body faq-body">
+                                    S&iacute;, ofrecemos <strong>4 programas de posgrado</strong> todos con reconocimiento PNPC: Maestr&iacute;a en Construcci&oacute;n, Maestr&iacute;a en Manejo de Zona Costera, Maestr&iacute;a en Urbanismo y Doctorado en Ciencias Ambientales (el &uacute;nico doctorado ambiental en el sureste de M&eacute;xico).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonios Section -->
+    <section id="testimonios" class="section-padding bg-light" aria-label="Testimonios de estudiantes">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Testimonios</span>
+                    <h2 class="section-title">Lo que dicen nuestros estudiantes</h2>
+                    <p class="section-description">Conoce las experiencias de quienes ya forman parte de nuestra comunidad</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i class="fas fa-quote-left"></i></div>
+                        <p class="testimonial-text">El ITChetumal me dio las herramientas para crecer profesionalmente. Los laboratorios de computo y los profesores comprometidos hicieron la diferencia en mi formacion.</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar" style="background: #7c3aed;"><i class="fas fa-user"></i></div>
+                            <div>
+                                <strong>Carlos M.</strong>
+                                <span>Ing. Sistemas Computacionales</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="150">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i class="fas fa-quote-left"></i></div>
+                        <p class="testimonial-text">Gracias a la movilidad internacional pude hacer una estancia de verano en el extranjero. La formacion que recibi me permitio competir a nivel nacional.</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar" style="background: #ea580c;"><i class="fas fa-user"></i></div>
+                            <div>
+                                <strong>Maria F.</strong>
+                                <span>Ingenieria Civil</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote"><i class="fas fa-quote-left"></i></div>
+                        <p class="testimonial-text">Estudiar Biologia en el ITChetumal es unico: la selva, los arrecifes y la zona costera de Quintana Roo son nuestro laboratorio natural.</p>
+                        <div class="testimonial-author">
+                            <div class="testimonial-avatar" style="background: #16a34a;"><i class="fas fa-user"></i></div>
+                            <div>
+                                <strong>Ana L.</strong>
+                                <span>Lic. en Biologia</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
-    <section id="contacto" class="section-padding bg-light" aria-label="Información de contacto">
+    <section id="contacto" class="section-padding" aria-label="Información de contacto">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center mb-5">
@@ -547,7 +809,9 @@
                         <li><a href="#inicio">Inicio</a></li>
                         <li><a href="#carreras">Carreras</a></li>
                         <li><a href="#posgrados">Posgrados</a></li>
+                        <li><a href="#vida-estudiantil">Vida Estudiantil</a></li>
                         <li><a href="#admisiones">Admisiones</a></li>
+                        <li><a href="#faq">Preguntas Frecuentes</a></li>
                         <li><a href="#recorrido-virtual">Recorrido Virtual</a></li>
                         <li><a href="#test-vocacional">Test Vocacional</a></li>
                     </ul>
@@ -566,7 +830,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <p class="copyright">
-                        &copy; 2025 Instituto Tecnológico de Chetumal - TecNM. Todos los derechos reservados.
+                        &copy; 2026 Instituto Tecnológico de Chetumal - TecNM. Todos los derechos reservados.
                         <br><small>Proyecto de residencia profesional - Jorge Daniel Ruiz Medina</small>
                     </p>
                 </div>
@@ -626,6 +890,11 @@
         <i class="fas fa-comments"></i>
     </button>
 
+    <!-- Back to top button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Volver al inicio" title="Volver al inicio">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <!-- Career Detail Modal -->
     <div class="modal fade" id="careerModal" tabindex="-1" aria-labelledby="careerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -650,7 +919,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/chat-assistant.js"></script>
-    <script type="text/babel" src="js/vocational-test.js"></script>
+    <script src="js/vocational-test.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init({ duration: 700, easing: 'ease-out', once: true, offset: 60 });</script>
 
 </body>
 </html>

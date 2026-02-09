@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initializePosgradosGrid();
     initializeCareerFilters();
     initializeChatToggle();
+    initializeBackToTop();
 });
 
 
@@ -1003,7 +1004,29 @@ function initializeChatToggle() {
 
 
 /* --------------------------------------------------------------------------
- * 13. Expose global functions used by onclick attributes in HTML
+ * 13. Back to Top Button
+ * -------------------------------------------------------------------------- */
+
+function initializeBackToTop() {
+    var btn = document.getElementById('back-to-top');
+    if (!btn) return;
+
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 400) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    }, { passive: true });
+
+    btn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+
+/* --------------------------------------------------------------------------
+ * 14. Expose global functions used by onclick attributes in HTML
  * -------------------------------------------------------------------------- */
 
 window.scrollToSection    = scrollToSection;

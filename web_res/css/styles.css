@@ -2751,6 +2751,1055 @@ button:focus-visible {
 
 
 /* ==========================================================
+   26. Vocational Test (Vanilla JS)
+   ========================================================== */
+
+.vt-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.animate-fadeIn {
+    animation: fadeInUp 0.5s ease-out both;
+}
+
+/* VT Intro */
+.vt-intro {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--bg-white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-light);
+}
+
+.vt-intro-visual {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 2rem;
+}
+
+.vt-intro-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-orange));
+    opacity: 0.1;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.vt-intro-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-white);
+    font-size: 2rem;
+    box-shadow: var(--shadow-blue);
+}
+
+.vt-intro-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.vt-intro-description {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    max-width: 500px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+}
+
+.vt-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.vt-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.vt-feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.08), rgba(59, 130, 246, 0.06));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-blue);
+    font-size: 1.2rem;
+}
+
+.vt-feature span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-gray);
+}
+
+.vt-intro-note {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.vt-intro-note i {
+    color: var(--accent-blue);
+}
+
+.vt-start-btn {
+    border-radius: var(--border-radius-pill) !important;
+    padding: 14px 40px !important;
+    font-weight: 600 !important;
+    font-size: 1.05rem !important;
+    background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue)) !important;
+    border: none !important;
+    box-shadow: var(--shadow-blue);
+    transition: transform var(--transition-base), box-shadow var(--transition-base) !important;
+}
+
+.vt-start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 44px rgba(30, 58, 138, 0.35);
+}
+
+/* VT Question */
+.vt-question {
+    background: var(--bg-white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+}
+
+.vt-question-header {
+    padding: 1.5rem 2rem 0;
+}
+
+.vt-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-light);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.vt-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vt-question-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.vt-question-counter {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-gray);
+}
+
+.vt-question-category {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.08), rgba(59, 130, 246, 0.06));
+    padding: 4px 14px;
+    border-radius: var(--border-radius-pill);
+}
+
+.vt-question-body {
+    padding: 2rem;
+}
+
+.vt-question-text {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 2rem;
+    line-height: 1.35;
+}
+
+.vt-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.vt-option-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: var(--bg-light);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-base);
+    font-family: var(--font-body);
+}
+
+.vt-option-btn:hover {
+    background: var(--bg-white);
+    border-color: var(--accent-blue);
+    transform: translateX(6px);
+    box-shadow: var(--shadow-sm);
+}
+
+.vt-option-letter {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--bg-white);
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 2px solid var(--border-color);
+    transition: all var(--transition-base);
+}
+
+.vt-option-btn:hover .vt-option-letter {
+    background: var(--primary-blue);
+    color: var(--bg-white);
+    border-color: var(--primary-blue);
+}
+
+.vt-option-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.4;
+    flex: 1;
+}
+
+.vt-option-arrow {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    opacity: 0;
+    transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.vt-option-btn:hover .vt-option-arrow {
+    opacity: 1;
+    transform: translateX(4px);
+}
+
+.vt-back-btn {
+    margin-top: 1.5rem;
+    border-radius: var(--border-radius-pill) !important;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* VT Processing */
+.vt-processing {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--bg-white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-light);
+}
+
+.vt-spinner-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 2rem;
+}
+
+.vt-spinner {
+    width: 100%;
+    height: 100%;
+    border: 4px solid var(--bg-light);
+    border-top-color: var(--primary-blue);
+    border-right-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 1.2s linear infinite;
+}
+
+.vt-spinner-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.8rem;
+    color: var(--primary-blue);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.vt-processing-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.vt-processing-subtitle {
+    font-size: 1rem;
+    color: var(--text-gray);
+    margin-bottom: 2rem;
+}
+
+.vt-processing-steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.vt-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--border-radius-pill);
+    background: var(--bg-light);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-light);
+    transition: all 0.5s ease;
+}
+
+.vt-step.active {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.08), rgba(59, 130, 246, 0.06));
+    color: var(--primary-blue);
+}
+
+.vt-step i {
+    font-size: 0.9rem;
+}
+
+/* VT Results */
+.vt-results {
+    padding: 0;
+}
+
+.vt-results-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.vt-results-trophy {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: #fff;
+    font-size: 2rem;
+    box-shadow: 0 8px 30px rgba(245, 158, 11, 0.3);
+}
+
+.vt-results-title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.vt-results-subtitle {
+    font-size: 1rem;
+    color: var(--text-gray);
+}
+
+.vt-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.vt-career-card {
+    background: var(--bg-white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.vt-career-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.vt-career-card.vt-best-match {
+    border: 2px solid var(--accent-blue);
+    box-shadow: var(--shadow-soft);
+}
+
+.vt-career-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.75rem 1.75rem 0;
+}
+
+.vt-career-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.vt-career-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.vt-career-name-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.vt-career-name {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.vt-position-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 12px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
+}
+
+.vt-compat-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.vt-compat-pct {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.vt-best-badge {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.vt-compat-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-light);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.vt-compat-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease-out;
+}
+
+.vt-career-body {
+    padding: 1.25rem 1.75rem 1.75rem;
+}
+
+.vt-career-desc {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.vt-career-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.vt-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--text-gray);
+}
+
+.vt-meta-item i {
+    color: var(--accent-blue);
+    font-size: 0.8rem;
+}
+
+.vt-modality-badge {
+    display: inline-block;
+    background: var(--bg-light);
+    padding: 2px 8px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-gray);
+}
+
+.vt-career-section {
+    margin-bottom: 1rem;
+}
+
+.vt-career-section:last-child {
+    margin-bottom: 0;
+}
+
+.vt-career-section h5 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.vt-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.vt-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.vt-tag-skill {
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.08), rgba(59, 130, 246, 0.06));
+    color: var(--primary-blue);
+    border: 1px solid rgba(30, 58, 138, 0.1);
+}
+
+.vt-tag-opp {
+    background: linear-gradient(135deg, rgba(234, 88, 12, 0.08), rgba(251, 146, 60, 0.06));
+    color: var(--primary-orange);
+    border: 1px solid rgba(234, 88, 12, 0.1);
+}
+
+.vt-results-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 1rem;
+}
+
+.vt-results-actions .btn {
+    border-radius: var(--border-radius-pill);
+    padding: 12px 28px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+
+/* ==========================================================
+   27. Vida Estudiantil
+   ========================================================== */
+
+.vida-card {
+    background: var(--bg-white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    height: 100%;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.vida-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.vida-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    transition: transform var(--transition-base);
+}
+
+.vida-card:hover .vida-card-icon {
+    transform: scale(1.08) rotate(-3deg);
+}
+
+.vida-card-icon i {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.vida-card h4 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.75rem;
+}
+
+.vida-card p {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.vida-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.vida-card-tags span {
+    display: inline-block;
+    background: var(--bg-light);
+    color: var(--text-gray);
+    padding: 4px 12px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+
+/* ==========================================================
+   28. FAQ Accordion
+   ========================================================== */
+
+.faq-accordion {
+    border: none;
+}
+
+.faq-item {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light) !important;
+    border-radius: var(--border-radius) !important;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    transition: box-shadow var(--transition-base);
+}
+
+.faq-item:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+.faq-button {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-dark);
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-white) !important;
+    box-shadow: none !important;
+    gap: 0.75rem;
+}
+
+.faq-button:not(.collapsed) {
+    color: var(--primary-blue);
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.03), rgba(59, 130, 246, 0.02)) !important;
+}
+
+.faq-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231e3a8a'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.faq-icon {
+    color: var(--accent-blue);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.faq-body {
+    padding: 0 1.5rem 1.25rem 3.5rem;
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
+
+/* ==========================================================
+   29. Testimonials
+   ========================================================== */
+
+.testimonial-card {
+    background: var(--bg-white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    height: 100%;
+    position: relative;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.testimonial-quote {
+    color: var(--accent-blue);
+    font-size: 1.5rem;
+    opacity: 0.3;
+    margin-bottom: 0.75rem;
+}
+
+.testimonial-text {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.testimonial-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.testimonial-author strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+
+.testimonial-author span {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+
+/* ==========================================================
+   30. Back to Top Button
+   ========================================================== */
+
+.back-to-top {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+    color: var(--bg-white);
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    z-index: var(--z-chat);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(30, 58, 138, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity var(--transition-base), visibility var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    box-shadow: 0 6px 24px rgba(30, 58, 138, 0.4);
+    transform: translateY(-3px);
+}
+
+
+/* ==========================================================
+   31. Career Card Extras (generated by main.js)
+   ========================================================== */
+
+.modality-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.badge-presencial {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.04));
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.badge-distancia {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.04));
+    color: var(--accent-blue);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.career-type-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.career-modalities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 0.75rem;
+}
+
+.btn-career-details {
+    border-radius: var(--border-radius-pill) !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 18px;
+    border: 2px solid;
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.btn-career-details:hover {
+    color: #fff !important;
+    transform: translateY(-2px);
+}
+
+.career-hidden {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.career-visible {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Posgrado badge ribbon */
+.posgrado-badge-ribbon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    z-index: 1;
+}
+
+.posgrado-level {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.posgrado-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.75rem;
+    line-height: 1.35;
+}
+
+.posgrado-description {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Modal career detail */
+.modal-career-detail {}
+
+.detail-section {
+    margin-bottom: 1.5rem;
+}
+
+.detail-heading {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.detail-heading i {
+    color: var(--accent-blue);
+}
+
+.detail-text {
+    color: var(--text-gray);
+    line-height: 1.65;
+    font-size: 0.95rem;
+}
+
+.detail-info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-light);
+    border-radius: var(--border-radius);
+}
+
+.detail-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.detail-info-item i {
+    font-size: 1.2rem;
+}
+
+.detail-info-label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.detail-info-value {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.modal-modality-badge {
+    display: inline-block;
+    background: var(--bg-white);
+    padding: 2px 8px;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-right: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.detail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.detail-list li {
+    padding: 0.4rem 0;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+.detail-list li i {
+    font-size: 0.8rem;
+}
+
+.detail-cta {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.btn-career-cta {
+    border-radius: var(--border-radius-pill) !important;
+    font-weight: 600;
+    padding: 12px 28px;
+    border: none;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.btn-career-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+    color: #fff;
+}
+
+
+/* ==========================================================
    Print Styles
    ========================================================== */
 
