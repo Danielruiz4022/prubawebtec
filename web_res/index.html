@@ -3,63 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TecNM Chetumal - Plataforma Interactiva Educativa</title>
-    
+    <meta name="description" content="Instituto Tecnológico de Chetumal (TecNM) - Primera institución de educación superior en Quintana Roo. Fundado en 1975. 10 carreras de licenciatura y 4 posgrados.">
+    <meta name="keywords" content="TecNM, Instituto Tecnológico de Chetumal, carreras, ingeniería, Quintana Roo, universidad, educación superior">
+    <meta name="author" content="Jorge Daniel Ruiz Medina">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="Instituto Tecnológico de Chetumal - TecNM">
+    <meta property="og:description" content="Primera institución de educación superior en Quintana Roo. Fundado en 1975. Explora nuestras carreras, recorrido virtual 360° y test vocacional.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://www.itchetumal.edu.mx">
+
+    <title>Instituto Tecnológico de Chetumal | TecNM - Plataforma Interactiva</title>
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
-    
+
     <!-- React CDN -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
+    <!-- Skip to content for accessibility -->
+    <a href="#inicio" class="skip-link">Saltar al contenido principal</a>
+
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar" role="navigation" aria-label="Navegación principal">
         <div class="container">
-            <a class="navbar-brand" href="#inicio">
+            <a class="navbar-brand" href="#inicio" aria-label="TecNM Chetumal - Inicio">
                 <div class="logo-container">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>TecNM Chetumal</span>
+                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                    <div class="logo-text">
+                        <span class="logo-main">TecNM</span>
+                        <span class="logo-sub">Chetumal</span>
+                    </div>
                 </div>
             </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir menú de navegación">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#inicio">Inicio</a>
+                        <a class="nav-link active" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#nosotros">Nosotros</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            Carreras
+                        <a class="nav-link dropdown-toggle" href="#carreras" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Oferta Académica
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#carreras">Todas las Carreras</a></li>
-                            <li><a class="dropdown-item" href="#test-vocacional">Test Vocacional</a></li>
+                            <li><a class="dropdown-item" href="#carreras"><i class="fas fa-graduation-cap me-2"></i>Carreras</a></li>
+                            <li><a class="dropdown-item" href="#posgrados"><i class="fas fa-user-graduate me-2"></i>Posgrados</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#test-vocacional"><i class="fas fa-brain me-2"></i>Test Vocacional</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#recorrido-virtual">Recorrido Virtual</a>
+                        <a class="nav-link" href="#recorrido-virtual">Recorrido 360°</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#informacion">Información</a>
+                        <a class="nav-link" href="#contacto">Contacto</a>
                     </li>
-                    <li class="nav-item">
-                        <button class="btn btn-outline-light btn-sm" id="chat-toggle">
-                            <i class="fas fa-robot"></i> Asistente
+                    <li class="nav-item ms-lg-2">
+                        <button class="btn btn-chat-toggle" id="chat-toggle" aria-label="Abrir asistente virtual">
+                            <i class="fas fa-robot" aria-hidden="true"></i>
+                            <span class="d-none d-xl-inline ms-1">Asistente</span>
+                            <span class="chat-pulse"></span>
                         </button>
                     </li>
                 </ul>
@@ -68,80 +95,160 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="inicio" class="hero-section">
+    <section id="inicio" class="hero-section" aria-label="Bienvenida">
         <div class="hero-background">
             <div class="geometric-pattern"></div>
+            <div class="geometric-pattern-2"></div>
         </div>
         <div class="container">
             <div class="row align-items-center min-vh-100">
-                <div class="col-lg-6">
+                <div class="col-lg-7">
                     <div class="hero-content">
-                        <span class="hero-badge">Tecnológico Nacional de México</span>
+                        <span class="hero-badge">
+                            <i class="fas fa-university me-2"></i>Tecnológico Nacional de México
+                        </span>
                         <h1 class="hero-title">
-                            Instituto Tecnológico de 
+                            Instituto Tecnológico de
                             <span class="text-gradient">Chetumal</span>
                         </h1>
+                        <p class="hero-subtitle">
+                            Primera institución de educación superior en Quintana Roo
+                        </p>
                         <p class="hero-description">
-                            Descubre tu futuro profesional en la institución líder en formación tecnológica 
-                            de la región. Explora nuestras carreras, recorre virtualmente nuestras instalaciones 
-                            y encuentra tu vocación con nuestro asistente inteligente.
+                            Desde 1975, formando profesionales de excelencia. Explora nuestras
+                            10 carreras de licenciatura y 4 posgrados, recorre virtualmente nuestras
+                            instalaciones y descubre tu vocación con nuestro test inteligente.
                         </p>
                         <div class="hero-actions">
-                            <button class="btn btn-primary btn-lg me-3" onclick="scrollToSection('test-vocacional')">
-                                <i class="fas fa-brain"></i> Test Vocacional
+                            <button class="btn btn-primary btn-lg" onclick="scrollToSection('test-vocacional')" aria-label="Ir al test vocacional">
+                                <i class="fas fa-brain me-2"></i>Test Vocacional
                             </button>
-                            <button class="btn btn-outline-primary btn-lg" onclick="scrollToSection('recorrido-virtual')">
-                                <i class="fas fa-vr-cardboard"></i> Recorrido 360°
+                            <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('recorrido-virtual')" aria-label="Ir al recorrido virtual 360°">
+                                <i class="fas fa-vr-cardboard me-2"></i>Recorrido 360°
                             </button>
                         </div>
-                        <div class="hero-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">12</span>
+                        <div class="hero-stats" role="list" aria-label="Estadísticas del instituto">
+                            <div class="stat-item" role="listitem">
+                                <span class="stat-number" data-target="10">0</span>
                                 <span class="stat-label">Carreras</span>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-number">3000+</span>
+                            <div class="stat-item" role="listitem">
+                                <span class="stat-number" data-target="3400">0</span>
+                                <span class="stat-suffix">+</span>
                                 <span class="stat-label">Estudiantes</span>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-number">40+</span>
+                            <div class="stat-item" role="listitem">
+                                <span class="stat-number" data-target="49">0</span>
+                                <span class="stat-suffix">+</span>
                                 <span class="stat-label">Años</span>
+                            </div>
+                            <div class="stat-item" role="listitem">
+                                <span class="stat-number" data-target="4">0</span>
+                                <span class="stat-label">Posgrados</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div class="hero-visual" aria-hidden="true">
+                        <div class="floating-card card-1">
+                            <i class="fas fa-laptop-code"></i>
+                            <span>Sistemas</span>
+                        </div>
+                        <div class="floating-card card-2">
+                            <i class="fas fa-hard-hat"></i>
+                            <span>Civil</span>
+                        </div>
+                        <div class="floating-card card-3">
+                            <i class="fas fa-drafting-compass"></i>
+                            <span>Arquitectura</span>
+                        </div>
+                        <div class="floating-card card-4">
+                            <i class="fas fa-leaf"></i>
+                            <span>Biología</span>
+                        </div>
+                        <div class="hero-image">
+                            <div class="tech-circle"></div>
+                            <div class="tech-circle-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator" aria-hidden="true">
+            <span>Descubre más</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="nosotros" class="section-padding" aria-label="Sobre nosotros">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Nuestra Historia</span>
+                    <h2 class="section-title">Conoce el ITChetumal</h2>
+                    <p class="section-description">
+                        La máxima casa de estudios de Quintana Roo, con casi 50 años formando profesionales de excelencia
+                    </p>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="about-content">
+                        <div class="about-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-year">1972</div>
+                                <div class="timeline-text">Se funda el Centro de Estudios Científicos y Tecnológicos #165 en Chetumal</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1975</div>
+                                <div class="timeline-text">El 8 de octubre inicia labores el Instituto Tecnológico Regional de Chetumal, primera institución de educación superior en el Estado</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">Hoy</div>
+                                <div class="timeline-text">10 carreras de licenciatura, 4 posgrados con reconocimiento PNPC y certificaciones ISO 9001, 14001 y 45001</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="hero-visual">
-                        <div class="floating-card card-1">
-                            <i class="fas fa-laptop-code"></i>
-                            <span>Tecnologías</span>
+                    <div class="about-cards">
+                        <div class="about-card">
+                            <div class="about-card-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h4>Misión</h4>
+                            <p>Formar integralmente profesionales de alto desempeño que contribuyan al desarrollo sostenido, sustentable e incluyente del Estado y del País.</p>
                         </div>
-                        <div class="floating-card card-2">
-                            <i class="fas fa-industry"></i>
-                            <span>Industrial</span>
+                        <div class="about-card">
+                            <div class="about-card-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4>Visión</h4>
+                            <p>Ser una institución educativa líder que contribuya al desarrollo sostenido, sustentable e incluyente del Estado y del País.</p>
                         </div>
-                        <div class="floating-card card-3">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Gestión</span>
+                        <div class="about-card-badges">
+                            <span class="cert-badge"><i class="fas fa-certificate me-1"></i>ISO 9001:2015</span>
+                            <span class="cert-badge"><i class="fas fa-leaf me-1"></i>ISO 14001:2015</span>
+                            <span class="cert-badge"><i class="fas fa-shield-alt me-1"></i>ISO 45001:2018</span>
                         </div>
-                        <div class="hero-image">
-                            <div class="tech-circle"></div>
-                        </div>
+                        <p class="about-lema"><i class="fas fa-quote-left me-2"></i>Cultura, Ciencia y Tecnología para la superación de México<i class="fas fa-quote-right ms-2"></i></p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Recorrido Virtual Section -->
-    <section id="recorrido-virtual" class="section-padding bg-light">
+    <!-- Virtual Tour Section -->
+    <section id="recorrido-virtual" class="section-padding bg-light" aria-label="Recorrido virtual 360°">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center mb-5">
-                    <span class="section-badge">Innovación Virtual</span>
+                    <span class="section-badge">Experiencia Inmersiva</span>
                     <h2 class="section-title">Recorrido Virtual 360°</h2>
                     <p class="section-description">
-                        Explora nuestras instalaciones desde cualquier lugar del mundo con tecnología de realidad virtual inmersiva
+                        Explora nuestro campus desde cualquier lugar: edificios, laboratorios, áreas verdes, canchas deportivas y más
                     </p>
                 </div>
             </div>
@@ -149,39 +256,41 @@
                 <div class="col-lg-10 mx-auto">
                     <div class="virtual-tour-container">
                         <div class="tour-frame">
-                            <iframe 
-                                class="ku-embed" 
-                                frameborder="0" 
-                                allow="xr-spatial-tracking; gyroscope; accelerometer" 
-                                allowfullscreen 
-                                scrolling="no" 
+                            <iframe
+                                class="ku-embed"
+                                frameborder="0"
+                                allow="xr-spatial-tracking; gyroscope; accelerometer"
+                                allowfullscreen
+                                scrolling="no"
+                                loading="lazy"
+                                title="Recorrido virtual 360° del Instituto Tecnológico de Chetumal"
                                 src="https://kuula.co/share/collection/7cwwW?logo=1&info=1&fs=1&vr=0&zoom=1&sd=1&thumbs=0&inst=0&keys=0">
                             </iframe>
                         </div>
                         <div class="tour-controls">
-                            <div class="row text-center">
-                                <div class="col-md-3">
+                            <div class="row text-center g-3">
+                                <div class="col-6 col-md-3">
                                     <div class="control-item">
-                                        <i class="fas fa-mouse"></i>
+                                        <i class="fas fa-mouse" aria-hidden="true"></i>
                                         <span>Arrastra para explorar</span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-6 col-md-3">
                                     <div class="control-item">
-                                        <i class="fas fa-search-plus"></i>
+                                        <i class="fas fa-search-plus" aria-hidden="true"></i>
                                         <span>Zoom con scroll</span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-6 col-md-3">
                                     <div class="control-item">
-                                        <i class="fas fa-expand"></i>
+                                        <i class="fas fa-expand" aria-hidden="true"></i>
                                         <span>Pantalla completa</span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-6 col-md-3">
                                     <div class="control-item">
-                                        <i class="fas fa-vr-cardboard"></i>
-                                        <span>Modo VR disponible</span>
+                                        <i class="fas fa-vr-cardboard" aria-hidden="true"></i>
+                                        <span>Modo VR</span>
                                     </div>
                                 </div>
                             </div>
@@ -193,14 +302,14 @@
     </section>
 
     <!-- Test Vocacional Section -->
-    <section id="test-vocacional" class="section-padding">
+    <section id="test-vocacional" class="section-padding" aria-label="Test vocacional">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center mb-5">
                     <span class="section-badge">Orientación Profesional</span>
                     <h2 class="section-title">Test Vocacional Inteligente</h2>
                     <p class="section-description">
-                        Descubre qué carrera se adapta mejor a tu perfil con nuestro sistema de evaluación basado en inteligencia artificial
+                        Descubre qué carrera se adapta mejor a tu perfil con nuestro sistema de evaluación personalizado
                     </p>
                 </div>
             </div>
@@ -209,86 +318,206 @@
     </section>
 
     <!-- Carreras Section -->
-    <section id="carreras" class="section-padding bg-light">
+    <section id="carreras" class="section-padding bg-light" aria-label="Oferta académica de licenciaturas">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center mb-5">
                     <span class="section-badge">Oferta Académica</span>
-                    <h2 class="section-title">Nuestras Carreras</h2>
+                    <h2 class="section-title">Carreras de Licenciatura</h2>
                     <p class="section-description">
-                        Programas educativos de vanguardia diseñados para formar profesionales competitivos a nivel nacional e internacional
+                        10 programas educativos presenciales y a distancia, todos con duración de 9 semestres
                     </p>
                 </div>
             </div>
-            <div id="careers-grid" class="row">
+            <!-- Career filters -->
+            <div class="career-filters text-center mb-4" role="group" aria-label="Filtrar carreras por modalidad">
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="presencial">Presencial</button>
+                <button class="filter-btn" data-filter="distancia">A distancia</button>
+                <button class="filter-btn" data-filter="ingenieria">Ingenierías</button>
+                <button class="filter-btn" data-filter="licenciatura">Licenciaturas</button>
+            </div>
+            <div id="careers-grid" class="row g-4">
                 <!-- Las carreras se cargarán dinámicamente -->
             </div>
         </div>
     </section>
 
-    <!-- Información Section -->
-    <section id="informacion" class="section-padding">
+    <!-- Posgrados Section -->
+    <section id="posgrados" class="section-padding" aria-label="Programas de posgrado">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6">
-                    <h2 class="section-title mb-4">¿Por qué elegirnos?</h2>
-                    <div class="feature-list">
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-award"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>Acreditación Nacional</h4>
-                                <p>Programas reconocidos por organismos evaluadores nacionales</p>
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-industry"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>Vinculación Industrial</h4>
-                                <p>Convenios con empresas líderes para prácticas profesionales</p>
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-microscope"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>Laboratorios Especializados</h4>
-                                <p>Infraestructura de vanguardia para formación práctica</p>
-                            </div>
-                        </div>
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Estudios Avanzados</span>
+                    <h2 class="section-title">Posgrados</h2>
+                    <p class="section-description">
+                        100% de nuestros programas de posgrado cuentan con reconocimiento PNPC (Programa Nacional de Posgrados de Calidad)
+                    </p>
+                </div>
+            </div>
+            <div id="posgrados-grid" class="row g-4">
+                <!-- Posgrados se cargan dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us & Services -->
+    <section id="servicios" class="section-padding bg-light" aria-label="Servicios y ventajas">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Ventajas</span>
+                    <h2 class="section-title">¿Por qué elegirnos?</h2>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-award"></i></div>
+                        <h4>Certificaciones Internacionales</h4>
+                        <p>Certificados en ISO 9001:2015 (Calidad), ISO 14001:2015 (Ambiental) e ISO 45001:2018 (Seguridad)</p>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="contact-card">
-                        <h3>Contáctanos</h3>
-                        <div class="contact-info">
-                            <div class="contact-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Av. Insurgentes 330, Chetumal, Q.R.</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-phone"></i>
-                                <span>+52 983 832 1060</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-envelope"></i>
-                                <span>vinculacion@itchetumal.edu.mx</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-globe"></i>
-                                <span>www.itchetumal.edu.mx</span>
-                            </div>
-                        </div>
-                        <div class="social-links">
-                            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-globe-americas"></i></div>
+                        <h4>Movilidad Internacional</h4>
+                        <p>Programas de intercambio para cursar materias, residencias profesionales y estancias de verano en el extranjero</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-microscope"></i></div>
+                        <h4>Laboratorios Especializados</h4>
+                        <p>Infraestructura de vanguardia con laboratorios, centros de cómputo y biblioteca física y virtual</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                        <h4>Becas y Apoyo Económico</h4>
+                        <p>Becas por excelencia académica, de manutención y apoyo a madres solteras. Inscripción desde $2,322 MXN</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-briefcase"></i></div>
+                        <h4>Bolsa de Trabajo</h4>
+                        <p>Vinculación con empresas como Banamex, Nextel, INAPESCA y más para prácticas y empleo</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-language"></i></div>
+                        <h4>Centro de Idiomas</h4>
+                        <p>Cursos de inglés presenciales, en línea y sabatinos para complementar tu formación profesional</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admissions Section -->
+    <section id="admisiones" class="section-padding" aria-label="Proceso de admisión">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Nuevo Ingreso</span>
+                    <h2 class="section-title">Proceso de Admisión</h2>
+                    <p class="section-description">Sigue estos pasos para ser parte de nuestra comunidad</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="admission-step">
+                        <div class="step-number">1</div>
+                        <h5>Registro</h5>
+                        <p>Realiza tu registro como aspirante con certificado de bachillerato, comprobante de domicilio y CURP</p>
+                        <div class="step-cost">Ficha: $480 MXN</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="admission-step">
+                        <div class="step-number">2</div>
+                        <h5>Examen CENEVAL</h5>
+                        <p>Regístrate al examen CENEVAL 2 días hábiles después del pago y descarga la guía de estudio</p>
+                        <div class="step-cost">Nivelación: $525 MXN</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="admission-step">
+                        <div class="step-number">3</div>
+                        <h5>Presentar Examen</h5>
+                        <p>Presenta el examen con identificación oficial y comprobante de registro CENEVAL</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="admission-step">
+                        <div class="step-number">4</div>
+                        <h5>Inscripción</h5>
+                        <p>Consulta resultados y completa tu inscripción con la documentación requerida</p>
+                        <div class="step-cost">Inscripción: $2,322 MXN</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <div class="admission-total">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Costo total de la carrera (4.5 años):</strong> Aproximadamente $20,898 MXN
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="section-padding bg-light" aria-label="Información de contacto">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <span class="section-badge">Contacto</span>
+                    <h2 class="section-title">¿Tienes dudas? Contáctanos</h2>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="contact-info-card">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <h5>Dirección</h5>
+                        <p>Av. Insurgentes No. 330, Esq. Andrés Quintana Roo<br>Col. David Gustavo Gutiérrez<br>C.P. 77013, Chetumal, Quintana Roo</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="contact-info-card">
+                        <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                        <h5>Teléfonos</h5>
+                        <p><a href="tel:+529838322330">(983) 832 2330</a><br>
+                        <a href="tel:+529838321019">(983) 832 1019</a><br>
+                        Ext. 112</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="contact-info-card">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <h5>Correo y Web</h5>
+                        <p><a href="mailto:comunicacion@itchetumal.edu.mx">comunicacion@itchetumal.edu.mx</a><br>
+                        <a href="http://www.itchetumal.edu.mx" target="_blank" rel="noopener">www.itchetumal.edu.mx</a><br>
+                        <a href="http://chetumal.tecnm.mx" target="_blank" rel="noopener">chetumal.tecnm.mx</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-lg-8 mx-auto">
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3795.3!2d-88.2967!3d18.5048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5ba5a0fbc13a47%3A0x7b0d7f9e2d8e3a4c!2sInstituto%20Tecnol%C3%B3gico%20de%20Chetumal!5e0!3m2!1ses!2smx!4v1700000000000!5m2!1ses!2smx"
+                            width="100%"
+                            height="300"
+                            style="border:0; border-radius: 16px;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Ubicación del Instituto Tecnológico de Chetumal en Google Maps">
+                        </iframe>
                     </div>
                 </div>
             </div>
@@ -296,25 +525,49 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                            <span>TecNM Chetumal</span>
+                        </div>
+                        <p class="footer-tagline">Cultura, Ciencia y Tecnología para la superación de México</p>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/ITChetumal" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook del ITChetumal"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://twitter.com/IT_Chetumal" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter del ITChetumal"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="footer-heading">Enlaces Rápidos</h5>
+                    <ul class="footer-nav" role="list">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#carreras">Carreras</a></li>
+                        <li><a href="#posgrados">Posgrados</a></li>
+                        <li><a href="#admisiones">Admisiones</a></li>
+                        <li><a href="#recorrido-virtual">Recorrido Virtual</a></li>
+                        <li><a href="#test-vocacional">Test Vocacional</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="footer-heading">Sitios Relacionados</h5>
+                    <ul class="footer-nav" role="list">
+                        <li><a href="http://www.itchetumal.edu.mx" target="_blank" rel="noopener">Portal Oficial ITChetumal</a></li>
+                        <li><a href="http://chetumal.tecnm.mx" target="_blank" rel="noopener">TecNM Campus Chetumal</a></li>
+                        <li><a href="https://escolar.chetumal.tecnm.mx" target="_blank" rel="noopener">Sistema Escolar</a></li>
+                        <li><a href="http://cursos.chetumal.tecnm.mx/moodle/" target="_blank" rel="noopener">Plataforma de Cursos</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <div class="footer-logo">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>TecNM Chetumal</span>
-                    </div>
-                    <p class="footer-text">
-                        Formando profesionales competitivos con tecnología de vanguardia
-                    </p>
-                    <div class="footer-links">
-                        <a href="#inicio">Inicio</a>
-                        <a href="#carreras">Carreras</a>
-                        <a href="#recorrido-virtual">Recorrido Virtual</a>
-                        <a href="#informacion">Contacto</a>
-                    </div>
                     <p class="copyright">
-                        © 2025 Instituto Tecnológico de Chetumal - TecNM. Todos los derechos reservados.
+                        &copy; 2025 Instituto Tecnológico de Chetumal - TecNM. Todos los derechos reservados.
+                        <br><small>Proyecto de residencia profesional - Jorge Daniel Ruiz Medina</small>
                     </p>
                 </div>
             </div>
@@ -322,37 +575,74 @@
     </footer>
 
     <!-- Chat Assistant Modal -->
-    <div class="chat-container" id="chat-container">
+    <div class="chat-container" id="chat-container" role="dialog" aria-label="Asistente virtual" aria-hidden="true">
         <div class="chat-header">
             <div class="chat-title">
-                <i class="fas fa-robot"></i>
-                <span>Asistente Virtual TecNM</span>
+                <div class="chat-avatar-header">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <span class="chat-name">Asistente ITChetumal</span>
+                    <span class="chat-status"><span class="status-dot"></span>En línea</span>
+                </div>
             </div>
-            <button class="chat-close" id="chat-close">
-                <i class="fas fa-times"></i>
-            </button>
+            <div class="chat-header-actions">
+                <button class="chat-action-btn" id="chat-clear" aria-label="Limpiar conversación" title="Limpiar conversación">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                <button class="chat-action-btn" id="chat-close" aria-label="Cerrar asistente">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
         </div>
-        <div class="chat-messages" id="chat-messages">
+        <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">
             <div class="message bot-message">
                 <div class="message-avatar">
                     <i class="fas fa-robot"></i>
                 </div>
                 <div class="message-content">
-                    ¡Hola! Soy tu asistente virtual del TecNM Chetumal. ¿En qué puedo ayudarte hoy? Puedo responder preguntas sobre:
-                    <ul>
-                        <li>Oferta educativa y carreras</li>
-                        <li>Proceso de admisión</li>
-                        <li>Instalaciones y servicios</li>
-                        <li>Requisitos y trámites</li>
-                    </ul>
+                    <div class="message-text">
+                        ¡Hola! Soy el asistente virtual del Instituto Tecnológico de Chetumal. Puedo ayudarte con:
+                    </div>
+                    <div class="quick-actions">
+                        <button class="quick-btn" data-query="carreras">Carreras disponibles</button>
+                        <button class="quick-btn" data-query="admision">Proceso de admisión</button>
+                        <button class="quick-btn" data-query="costos">Costos y becas</button>
+                        <button class="quick-btn" data-query="contacto">Contacto</button>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="chat-input">
-            <input type="text" id="chat-input-field" placeholder="Escribe tu pregunta aquí...">
-            <button id="chat-send-btn">
+            <input type="text" id="chat-input-field" placeholder="Escribe tu pregunta aquí..." aria-label="Escribe tu pregunta" autocomplete="off">
+            <button id="chat-send-btn" aria-label="Enviar mensaje">
                 <i class="fas fa-paper-plane"></i>
             </button>
+        </div>
+    </div>
+
+    <!-- Floating chat button (mobile) -->
+    <button class="floating-chat-btn d-lg-none" id="floating-chat-btn" aria-label="Abrir asistente virtual">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- Career Detail Modal -->
+    <div class="modal fade" id="careerModal" tabindex="-1" aria-labelledby="careerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content career-modal-content">
+                <div class="modal-header career-modal-header" id="careerModalHeader">
+                    <div class="modal-header-content">
+                        <div class="modal-career-icon" id="modalCareerIcon"></div>
+                        <div>
+                            <h5 class="modal-title" id="careerModalLabel">Carrera</h5>
+                            <span class="modal-career-type" id="modalCareerType"></span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body" id="careerModalBody">
+                </div>
+            </div>
         </div>
     </div>
 
@@ -361,6 +651,6 @@
     <script src="js/main.js"></script>
     <script src="js/chat-assistant.js"></script>
     <script type="text/babel" src="js/vocational-test.js"></script>
-    
+
 </body>
 </html>
