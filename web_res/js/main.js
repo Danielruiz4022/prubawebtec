@@ -238,6 +238,7 @@ var careersData = [
         duration: '9 semestres',
         type: 'Arquitectura',
         modality: ['presencial'],
+        images: ['img/carreras/arquitectura/ARQ1.JPG', 'img/carreras/arquitectura/ARQ2.jpeg', 'img/carreras/arquitectura/ARQ3.JPG', 'img/carreras/arquitectura/ARQ4.JPG'],
         description:
             'Forma profesionales capaces de disenar, planificar y construir espacios ' +
             'arquitectonicos funcionales, esteticos y sustentables, considerando el ' +
@@ -271,6 +272,7 @@ var careersData = [
         duration: '9 semestres',
         type: 'Licenciatura',
         modality: ['presencial', 'distancia'],
+        images: ['img/carreras/contador-publico/CP1.jpg', 'img/carreras/contador-publico/CP2.jpeg', 'img/carreras/contador-publico/CP3.JPG', 'img/carreras/contador-publico/CP4.jpg', 'img/carreras/contador-publico/CP5.jpeg', 'img/carreras/contador-publico/CP6.jpg'],
         description:
             'Prepara profesionales competentes en contabilidad, auditoria, fiscalidad y ' +
             'finanzas, capaces de generar informacion financiera confiable para la toma ' +
@@ -304,6 +306,7 @@ var careersData = [
         duration: '9 semestres',
         type: 'Ingenieria',
         modality: ['presencial', 'distancia mixta'],
+        images: ['img/carreras/administracion/IA1.JPG', 'img/carreras/administracion/IA2.JPG', 'img/carreras/administracion/IA3.jpg', 'img/carreras/administracion/IA4.jpg', 'img/carreras/administracion/IA5.jpg', 'img/carreras/administracion/IA6.jpeg'],
         description:
             'Integra conocimientos de ingenieria con ciencias administrativas para ' +
             'optimizar procesos organizacionales, gestionar recursos y liderar proyectos ' +
@@ -337,6 +340,7 @@ var careersData = [
         duration: '9 semestres',
         type: 'Ingenieria',
         modality: ['presencial'],
+        images: ['img/carreras/civil/IC1.JPG', 'img/carreras/civil/IC2.JPG', 'img/carreras/civil/IC3.JPG', 'img/carreras/civil/IC4.jpg'],
         description:
             'Forma ingenieros capacitados para disenar, construir y supervisar obras ' +
             'de infraestructura como carreteras, puentes, edificaciones y sistemas ' +
@@ -370,6 +374,7 @@ var careersData = [
         duration: '9 semestres',
         type: 'Ingenieria',
         modality: ['presencial'],
+        images: ['img/carreras/electrica/IE1.JPG', 'img/carreras/electrica/IE2.JPG', 'img/carreras/electrica/IE3.jpeg', 'img/carreras/electrica/IE4.jpeg'],
         description:
             'Prepara profesionales en el diseno, operacion y mantenimiento de sistemas ' +
             'electricos de potencia, instalaciones electricas, energias renovables y ' +
@@ -403,6 +408,7 @@ var careersData = [
         duration: '9 semestres',
         type: 'Ingenieria',
         modality: ['presencial', 'distancia'],
+        images: ['img/carreras/gestion-empresarial/IGE1.JPG', 'img/carreras/gestion-empresarial/IGE2.JPG', 'img/carreras/gestion-empresarial/IGE3.JPG', 'img/carreras/gestion-empresarial/IGE4.JPG'],
         description:
             'Combina formacion en ingenieria con habilidades directivas para crear, ' +
             'gestionar y hacer crecer organizaciones competitivas, integrando la ' +
@@ -436,6 +442,7 @@ var careersData = [
         duration: '9 semestres',
         type: 'Ingenieria',
         modality: ['presencial'],
+        images: ['img/carreras/sistemas/ISIC1.JPG', 'img/carreras/sistemas/ISIC2.JPG', 'img/carreras/sistemas/ISIC3.jpg', 'img/carreras/sistemas/ISIC4.jpg'],
         description:
             'Forma ingenieros especializados en desarrollo de software, bases de datos, ' +
             'redes de computadoras y tecnologias emergentes, capaces de crear soluciones ' +
@@ -469,6 +476,7 @@ var careersData = [
         duration: '9 semestres',
         type: 'Ingenieria',
         modality: ['presencial'],
+        images: ['img/carreras/tics/ITICS1.JPG', 'img/carreras/tics/ITICS2.jpg', 'img/carreras/tics/ITICS3.jpg', 'img/carreras/tics/ITICS4.jpeg'],
         description:
             'Prepara profesionales en la implementacion y gestion de infraestructura ' +
             'tecnologica, sistemas de comunicaciones, redes convergentes y soluciones ' +
@@ -502,6 +510,7 @@ var careersData = [
         duration: '9 semestres',
         type: 'Licenciatura',
         modality: ['presencial'],
+        images: [],
         description:
             'Forma profesionales en la planeacion, organizacion, direccion y control ' +
             'de recursos en organizaciones publicas y privadas, con un enfoque ' +
@@ -535,6 +544,7 @@ var careersData = [
         duration: '9 semestres',
         type: 'Licenciatura',
         modality: ['presencial'],
+        images: ['img/carreras/biologia/BIOL1.jpg', 'img/carreras/biologia/BIOL2.JPG', 'img/carreras/biologia/BIOL3.jpg', 'img/carreras/biologia/BIOL4.jpeg'],
         description:
             'Forma biologos con conocimientos solidos en ecologia, biodiversidad, ' +
             'manejo de recursos naturales y biotecnologia, con enfasis en los ' +
@@ -641,28 +651,36 @@ function createCareerCard(career) {
     if (career.type === 'Licenciatura') filterClasses += ' filter-licenciatura';
     if (career.type === 'Arquitectura') filterClasses += ' filter-licenciatura';
 
+    // Career card image (use first image or fallback to gradient)
+    var imageHTML = '';
+    if (career.images && career.images.length > 0) {
+        imageHTML =
+            '<div class="career-image-wrapper">' +
+                '<img src="' + career.images[0] + '" alt="' + career.name + '" class="career-image" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
+                '<div class="career-image-overlay" style="background:linear-gradient(180deg,transparent 30%,' + career.color + 'dd 100%);"></div>' +
+                '<div class="career-image-icon"><i class="' + career.icon + '"></i></div>' +
+                '<span class="career-image-badge" style="background:' + career.color + ';">' + career.type + '</span>' +
+            '</div>';
+    } else {
+        imageHTML =
+            '<div class="career-image-wrapper career-no-image" style="background:linear-gradient(135deg,' + career.color + '22,' + career.color + '08);">' +
+                '<div class="career-image-icon career-icon-only"><i class="' + career.icon + '" style="color:' + career.color + ';"></i></div>' +
+                '<span class="career-image-badge" style="background:' + career.color + ';">' + career.type + '</span>' +
+            '</div>';
+    }
+
     return (
         '<div class="col-md-6 col-xl-4 career-col' + filterClasses + '">' +
             '<div class="career-card h-100" data-career-id="' + career.id + '">' +
-                '<div class="career-header">' +
-                    '<div class="career-icon" style="background:linear-gradient(135deg,' +
-                        career.color + ',' + career.color + 'bb);">' +
-                        '<i class="' + career.icon + '"></i>' +
-                    '</div>' +
-                    '<div class="career-meta">' +
-                        '<span class="career-type-badge" style="background:' +
-                            career.color + '18;color:' + career.color + ';">' +
-                            career.type +
-                        '</span>' +
-                        '<span class="career-duration">' +
-                            '<i class="fas fa-clock"></i> ' + career.duration +
-                        '</span>' +
-                    '</div>' +
-                '</div>' +
+                imageHTML +
                 '<div class="career-body">' +
                     '<h4 class="career-title">' + career.name + '</h4>' +
                     '<div class="career-modalities">' + modalityBadges + '</div>' +
                     '<p class="career-description">' + career.description + '</p>' +
+                    '<div class="career-meta-row">' +
+                        '<span class="career-duration"><i class="fas fa-clock me-1"></i>' + career.duration + '</span>' +
+                        '<span class="career-photo-count" title="Fotografias"><i class="fas fa-camera me-1"></i>' + (career.images ? career.images.length : 0) + '</span>' +
+                    '</div>' +
                 '</div>' +
                 '<div class="career-footer">' +
                     '<button class="btn btn-career-details" ' +
@@ -825,9 +843,28 @@ function showCareerDetails(careerId) {
         return '<li><i class="fas fa-briefcase me-2" style="color:' + career.color + ';"></i>' + o + '</li>';
     }).join('');
 
+    // Photo gallery (if images exist)
+    var galleryHTML = '';
+    if (career.images && career.images.length > 0) {
+        var galleryItems = career.images.map(function (img, idx) {
+            return '<div class="gallery-item' + (idx === 0 ? ' gallery-item-large' : '') + '">' +
+                '<img src="' + img + '" alt="' + career.name + ' - Foto ' + (idx + 1) + '" loading="lazy" onclick="this.classList.toggle(\'gallery-zoom\')" onerror="this.parentElement.style.display=\'none\'">' +
+            '</div>';
+        }).join('');
+
+        galleryHTML =
+            '<div class="detail-section">' +
+                '<h6 class="detail-heading"><i class="fas fa-images me-2"></i>Galeria fotografica</h6>' +
+                '<div class="detail-gallery">' + galleryItems + '</div>' +
+            '</div>';
+    }
+
     // Build body
     modalBody.innerHTML =
         '<div class="modal-career-detail">' +
+            // Photo gallery at the top
+            galleryHTML +
+
             // Description
             '<div class="detail-section">' +
                 '<h6 class="detail-heading"><i class="fas fa-book-open me-2"></i>Descripcion del programa</h6>' +
