@@ -43,7 +43,9 @@
         <div class="container">
             <a class="navbar-brand" href="#inicio" aria-label="TecNM Chetumal - Inicio">
                 <div class="logo-container">
-                    <img src="logotipos/logoTecnologicoChetumal.png" alt="Logo Instituto Tecnológico de Chetumal" class="navbar-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="navbar-logo-wrapper">
+                        <img src="logotipos/logoTecnologicoChetumal.png" alt="Logo Instituto Tecnológico de Chetumal" class="navbar-logo" onerror="this.style.display='none';this.closest('.navbar-logo-wrapper').classList.add('logo-hidden');">
+                    </div>
                     <div class="logo-fallback" style="display:none;">
                         <i class="fas fa-graduation-cap" aria-hidden="true"></i>
                     </div>
@@ -156,9 +158,17 @@
                 <div class="col-lg-5 d-none d-lg-block">
                     <div class="hero-visual" aria-hidden="true">
                         <div class="hero-logos-display">
-                            <img src="logotipos/logoTecnologicoChetumal.png" alt="Logo ITChetumal" class="hero-logo-main" onerror="this.style.display='none'">
-                            <img src="logotipos/logo 50aniversario.png" alt="50 Aniversario ITChetumal" class="hero-logo-anniversary" onerror="this.style.display='none'">
-                            <img src="logotipos/logooficialtecnm.png" alt="Logo TecNM" class="hero-logo-tecnm" onerror="this.style.display='none'">
+                            <div class="hero-logo-card hero-logo-card-main">
+                                <img src="logotipos/logoTecnologicoChetumal.png" alt="Logo ITChetumal" class="hero-logo-main" onerror="this.parentElement.style.display='none'">
+                            </div>
+                            <div class="hero-logos-bottom">
+                                <div class="hero-logo-card">
+                                    <img src="logotipos/logo 50aniversario.png" alt="50 Aniversario ITChetumal" class="hero-logo-anniversary" onerror="this.parentElement.style.display='none'">
+                                </div>
+                                <div class="hero-logo-card">
+                                    <img src="logotipos/logooficialtecnm.png" alt="Logo TecNM" class="hero-logo-tecnm" onerror="this.parentElement.style.display='none'">
+                                </div>
+                            </div>
                         </div>
                         <div class="floating-card card-1">
                             <i class="fas fa-laptop-code"></i>
