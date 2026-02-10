@@ -653,7 +653,7 @@ button:focus-visible {
 /* Hero Visual (Right Column) */
 .hero-visual {
     position: relative;
-    height: 500px;
+    height: 520px;
     z-index: 1;
     animation: fadeInRight 1s ease-out 0.5s both;
 }
@@ -661,61 +661,48 @@ button:focus-visible {
 .floating-card {
     position: absolute;
     background: var(--bg-white);
-    border-radius: var(--border-radius);
-    padding: 1.25rem 1.5rem;
-    box-shadow: var(--shadow-soft);
+    border-radius: 14px;
+    padding: 0.7rem 1rem;
+    box-shadow: 0 4px 20px rgba(30,58,138,0.08), 0 1px 4px rgba(0,0,0,0.04);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    min-width: 115px;
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    transition: box-shadow var(--transition-base);
+    gap: 4px;
+    min-width: 90px;
+    border: 1px solid rgba(255,255,255,0.9);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    z-index: 2;
 }
 
 .floating-card:hover {
-    box-shadow: var(--shadow-strong);
+    box-shadow: 0 8px 30px rgba(30,58,138,0.14), 0 2px 8px rgba(0,0,0,0.06);
+    transform: translateY(-3px) !important;
 }
 
 .floating-card i {
-    font-size: 1.75rem;
+    font-size: 1.4rem;
     color: var(--primary-orange);
 }
 
 .floating-card span {
     font-weight: 600;
     color: var(--text-dark);
-    font-size: 0.85rem;
+    font-size: 0.72rem;
     letter-spacing: 0.01em;
+    white-space: nowrap;
 }
 
-.card-1 {
-    top: 10%;
-    left: 5%;
-    animation: float 4s ease-in-out infinite;
-    animation-delay: 0s;
-}
-
-.card-2 {
-    top: 15%;
-    right: 5%;
-    animation: float 4s ease-in-out infinite;
-    animation-delay: 1s;
-}
-
-.card-3 {
-    bottom: 25%;
-    left: 0;
-    animation: float 4s ease-in-out infinite;
-    animation-delay: 2s;
-}
-
-.card-4 {
-    bottom: 10%;
-    right: 10%;
-    animation: float 4s ease-in-out infinite;
-    animation-delay: 0.5s;
-}
+/* 10 cards arranged in an orbital/scattered layout */
+.card-1  { top: 2%;   left: 22%;  animation: float 4.5s ease-in-out infinite 0s;    }
+.card-2  { top: 2%;   right: 8%;  animation: float 4.5s ease-in-out infinite 0.4s;  }
+.card-3  { top: 18%;  left: 0%;   animation: float 4.5s ease-in-out infinite 0.8s;  }
+.card-4  { top: 20%;  right: 25%; animation: float 4.5s ease-in-out infinite 1.2s;  }
+.card-5  { top: 38%;  left: 10%;  animation: float 4.5s ease-in-out infinite 1.6s;  }
+.card-6  { top: 38%;  right: 2%;  animation: float 4.5s ease-in-out infinite 2.0s;  }
+.card-7  { top: 56%;  left: 0%;   animation: float 4.5s ease-in-out infinite 2.4s;  }
+.card-8  { top: 56%;  right: 15%; animation: float 4.5s ease-in-out infinite 2.8s;  }
+.card-9  { top: 74%;  left: 15%;  animation: float 4.5s ease-in-out infinite 3.2s;  }
+.card-10 { top: 74%;  right: 5%;  animation: float 4.5s ease-in-out infinite 3.6s;  }
 
 /* Hero Circles */
 .hero-image {
@@ -723,15 +710,15 @@ button:focus-visible {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: -1;
+    z-index: 0;
 }
 
 .tech-circle {
-    width: 300px;
-    height: 300px;
+    width: 320px;
+    height: 320px;
     border-radius: var(--border-radius-circle);
     background: linear-gradient(135deg, var(--primary-blue), var(--primary-orange));
-    opacity: 0.08;
+    opacity: 0.06;
     animation: rotate 25s linear infinite;
 }
 
@@ -740,10 +727,10 @@ button:focus-visible {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     border-radius: var(--border-radius-circle);
-    border: 2px dashed rgba(30, 58, 138, 0.12);
+    border: 2px dashed rgba(30, 58, 138, 0.10);
     animation: rotate 35s linear infinite reverse;
 }
 
@@ -2373,12 +2360,20 @@ button:focus-visible {
     }
 
     .hero-visual {
-        height: 420px;
+        height: 450px;
     }
 
     .floating-card {
-        padding: 1rem 1.25rem;
-        min-width: 100px;
+        padding: 0.6rem 0.8rem;
+        min-width: 80px;
+    }
+
+    .floating-card i {
+        font-size: 1.2rem;
+    }
+
+    .floating-card span {
+        font-size: 0.65rem;
     }
 
     .tech-circle {
