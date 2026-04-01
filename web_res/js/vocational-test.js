@@ -1,833 +1,648 @@
-// Vocational Test Component with AI-based Recommendations
-const { useState, useEffect, useRef } = React;
+// ============================================================================
+// Vocational Test - Instituto Tecnologico de Chetumal
+// Vanilla JS implementation (no React/Babel dependency)
+// ============================================================================
 
-// Test Vocacional Interactivo
-function VocationalTest() {
-    const [currentStep, setCurrentStep] = useState('intro');
-    const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [answers, setAnswers] = useState({});
-    const [results, setResults] = useState(null);
-    const [isProcessing, setIsProcessing] = useState(false);
-    const [userProfile, setUserProfile] = useState({});
+(function () {
+    'use strict';
 
-    // Preguntas del test vocacional
-    const questions = [
+    // ------------------------------------------------------------------
+    // Career definitions - 10 official ITChetumal programmes
+    // ------------------------------------------------------------------
+    var careers = {
+        arquitectura: {
+            name: 'Arquitectura',
+            description: 'Forma profesionales capaces de disenar y planificar espacios habitables, proyectos urbanos y construcciones sustentables que transforman el entorno.',
+            duration: '9 semestres',
+            icon: 'fas fa-drafting-compass',
+            color: '#8b5cf6',
+            modality: ['Presencial'],
+            opportunities: ['Arquitecto proyectista', 'Disenador urbano', 'Consultor en sustentabilidad', 'Director de obra'],
+            skills: ['Diseno arquitectonico', 'Modelado 3D', 'Construccion sustentable', 'Planificacion urbana']
+        },
+        contaduria: {
+            name: 'Contador Publico',
+            description: 'Prepara expertos en contabilidad, finanzas, auditoria y fiscalizacion, esenciales para la salud financiera de cualquier organizacion.',
+            duration: '9 semestres',
+            icon: 'fas fa-calculator',
+            color: '#059669',
+            modality: ['Presencial', 'Distancia'],
+            opportunities: ['Contador publico certificado', 'Auditor financiero', 'Asesor fiscal', 'Director de finanzas'],
+            skills: ['Contabilidad financiera', 'Auditoria', 'Planeacion fiscal', 'Analisis financiero']
+        },
+        ingAdministracion: {
+            name: 'Ingenieria en Administracion',
+            description: 'Integra la ingenieria con la administracion para dirigir empresas con vision estrategica, optimizar recursos y fomentar el emprendimiento.',
+            duration: '9 semestres',
+            icon: 'fas fa-chart-line',
+            color: '#d97706',
+            modality: ['Presencial'],
+            opportunities: ['Director de operaciones', 'Consultor empresarial', 'Gerente de proyectos', 'Emprendedor'],
+            skills: ['Direccion estrategica', 'Optimizacion de procesos', 'Finanzas corporativas', 'Emprendimiento']
+        },
+        civil: {
+            name: 'Ingenieria Civil',
+            description: 'Forma ingenieros que disenan, construyen y supervisan infraestructura como carreteras, puentes, edificaciones y sistemas hidraulicos.',
+            duration: '9 semestres',
+            icon: 'fas fa-hard-hat',
+            color: '#dc2626',
+            modality: ['Presencial'],
+            opportunities: ['Ingeniero estructural', 'Supervisor de obra', 'Disenador de infraestructura vial', 'Consultor en geotecnia'],
+            skills: ['Calculo estructural', 'Supervision de obra', 'Topografia', 'Diseno de infraestructura']
+        },
+        electrica: {
+            name: 'Ingenieria Electrica',
+            description: 'Especializa profesionales en sistemas electricos de potencia, generacion de energia, circuitos y automatizacion industrial.',
+            duration: '9 semestres',
+            icon: 'fas fa-bolt',
+            color: '#eab308',
+            modality: ['Presencial'],
+            opportunities: ['Ingeniero de potencia', 'Disenador de sistemas electricos', 'Especialista en energias renovables', 'Ingeniero de automatizacion'],
+            skills: ['Sistemas electricos de potencia', 'Diseno de circuitos', 'Energias renovables', 'Automatizacion industrial']
+        },
+        gestion: {
+            name: 'Ingenieria en Gestion Empresarial',
+            description: 'Desarrolla lideres con habilidades para gestionar empresas, crear estrategias de mercado y dirigir equipos hacia el exito organizacional.',
+            duration: '9 semestres',
+            icon: 'fas fa-briefcase',
+            color: '#2563eb',
+            modality: ['Presencial', 'Distancia'],
+            opportunities: ['Gerente general', 'Director de mercadotecnia', 'Consultor de negocios', 'Lider de desarrollo organizacional'],
+            skills: ['Liderazgo estrategico', 'Mercadotecnia', 'Gestion del talento', 'Planeacion de negocios']
+        },
+        sistemas: {
+            name: 'Ingenieria en Sistemas Computacionales',
+            description: 'Forma ingenieros en desarrollo de software, administracion de bases de datos, redes de computo y seguridad informatica.',
+            duration: '9 semestres',
+            icon: 'fas fa-laptop-code',
+            color: '#7c3aed',
+            modality: ['Presencial'],
+            opportunities: ['Desarrollador de software', 'Administrador de bases de datos', 'Ingeniero en ciberseguridad', 'Arquitecto de sistemas'],
+            skills: ['Programacion', 'Bases de datos', 'Redes de computo', 'Ciberseguridad']
+        },
+        tics: {
+            name: 'Ingenieria en TICs',
+            description: 'Prepara profesionales en gestion de TI, telecomunicaciones, computo en la nube y transformacion digital de las organizaciones.',
+            duration: '9 semestres',
+            icon: 'fas fa-network-wired',
+            color: '#0891b2',
+            modality: ['Presencial'],
+            opportunities: ['Gerente de TI', 'Especialista en telecomunicaciones', 'Arquitecto de soluciones en la nube', 'Consultor en transformacion digital'],
+            skills: ['Gestion de TI', 'Telecomunicaciones', 'Computo en la nube', 'Transformacion digital']
+        },
+        administracion: {
+            name: 'Licenciatura en Administracion',
+            description: 'Forma profesionales en gestion de recursos humanos, desarrollo organizacional y administracion integral de empresas publicas y privadas.',
+            duration: '9 semestres',
+            icon: 'fas fa-users-cog',
+            color: '#f59e0b',
+            modality: ['Presencial'],
+            opportunities: ['Gerente de recursos humanos', 'Coordinador administrativo', 'Analista organizacional', 'Director de desarrollo empresarial'],
+            skills: ['Gestion de personal', 'Desarrollo organizacional', 'Administracion publica', 'Planeacion estrategica']
+        },
+        biologia: {
+            name: 'Licenciatura en Biologia',
+            description: 'Forma cientificos en biologia, ecologia, conservacion de la biodiversidad e investigacion ambiental para proteger los ecosistemas.',
+            duration: '9 semestres',
+            icon: 'fas fa-leaf',
+            color: '#16a34a',
+            modality: ['Presencial'],
+            opportunities: ['Biologo investigador', 'Consultor ambiental', 'Especialista en conservacion', 'Gestor de recursos naturales'],
+            skills: ['Investigacion cientifica', 'Ecologia de campo', 'Conservacion de biodiversidad', 'Analisis de laboratorio']
+        }
+    };
+
+    // ------------------------------------------------------------------
+    // 10 Questions with weighted options
+    // ------------------------------------------------------------------
+    var questions = [
         {
             id: 1,
-            category: 'interests',
-            question: '¿Cuál de estas actividades te resulta más interesante?',
+            category: 'Intereses',
+            icon: 'fas fa-heart',
+            question: '\u00bfQue actividad te resulta mas interesante?',
             options: [
-                { value: 'tech', label: 'Programar y desarrollar software', weight: { tech: 3, engineering: 2 } },
-                { value: 'design', label: 'Diseñar y crear productos', weight: { engineering: 3, management: 1 } },
-                { value: 'manage', label: 'Liderar equipos y proyectos', weight: { management: 3, admin: 2 } },
-                { value: 'analyze', label: 'Analizar datos y procesos', weight: { engineering: 2, tech: 2, admin: 1 } }
+                { value: 'a', label: 'Programar aplicaciones o explorar nuevas tecnologias', weight: { sistemas: 3, tics: 3, electrica: 1 } },
+                { value: 'b', label: 'Disenar espacios, planos o maquetas', weight: { arquitectura: 3, civil: 2, electrica: 1 } },
+                { value: 'c', label: 'Organizar eventos, liderar equipos o crear negocios', weight: { gestion: 3, ingAdministracion: 2, administracion: 2 } },
+                { value: 'd', label: 'Observar la naturaleza, hacer trabajo de campo o investigar', weight: { biologia: 3, contaduria: 1, civil: 1 } }
             ]
         },
         {
             id: 2,
-            category: 'skills',
-            question: '¿En cuál de estas áreas consideras que tienes más habilidad natural?',
+            category: 'Habilidades',
+            icon: 'fas fa-tools',
+            question: '\u00bfCual es tu habilidad mas fuerte?',
             options: [
-                { value: 'math', label: 'Matemáticas y lógica', weight: { tech: 3, engineering: 3, civil: 2 } },
-                { value: 'communication', label: 'Comunicación y relaciones interpersonales', weight: { management: 3, admin: 3 } },
-                { value: 'creativity', label: 'Creatividad y innovación', weight: { tech: 2, engineering: 2, management: 1 } },
-                { value: 'organization', label: 'Organización y planificación', weight: { admin: 3, management: 2, engineering: 1 } }
+                { value: 'a', label: 'Logica, matematicas y pensamiento analitico', weight: { sistemas: 2, civil: 3, electrica: 3, ingAdministracion: 1 } },
+                { value: 'b', label: 'Comunicacion, negociacion y trabajo en equipo', weight: { gestion: 3, administracion: 3, contaduria: 1 } },
+                { value: 'c', label: 'Creatividad, diseno y vision espacial', weight: { arquitectura: 3, tics: 2, biologia: 1 } },
+                { value: 'd', label: 'Orden, precision y atencion al detalle', weight: { contaduria: 3, ingAdministracion: 2, electrica: 1 } }
             ]
         },
         {
             id: 3,
-            category: 'work_environment',
-            question: '¿En qué tipo de ambiente de trabajo te ves mejor?',
+            category: 'Entorno laboral',
+            icon: 'fas fa-building',
+            question: '\u00bfDonde te imaginas trabajando en el futuro?',
             options: [
-                { value: 'office', label: 'Oficina moderna con tecnología', weight: { tech: 3, management: 2 } },
-                { value: 'field', label: 'Campo, construcción o industria', weight: { civil: 3, engineering: 2, chemical: 2 } },
-                { value: 'laboratory', label: 'Laboratorio o centro de investigación', weight: { chemical: 3, tech: 2 } },
-                { value: 'mixed', label: 'Combinación de oficina y campo', weight: { engineering: 2, management: 2, civil: 1 } }
+                { value: 'a', label: 'En una oficina de tecnologia o un centro de datos', weight: { sistemas: 3, tics: 3, electrica: 1 } },
+                { value: 'b', label: 'En obra, campo o supervisando construcciones', weight: { civil: 3, arquitectura: 2, electrica: 2 } },
+                { value: 'c', label: 'En una empresa dirigiendo departamentos o proyectos', weight: { gestion: 3, ingAdministracion: 2, administracion: 2, contaduria: 1 } },
+                { value: 'd', label: 'En un laboratorio, reserva natural o centro de investigacion', weight: { biologia: 3, contaduria: 1 } }
             ]
         },
         {
             id: 4,
-            category: 'problem_solving',
-            question: '¿Cómo prefieres resolver problemas complejos?',
+            category: 'Resolucion de problemas',
+            icon: 'fas fa-puzzle-piece',
+            question: '\u00bfComo prefieres resolver problemas complejos?',
             options: [
-                { value: 'systematic', label: 'Siguiendo métodos sistemáticos y probados', weight: { engineering: 3, admin: 2 } },
-                { value: 'creative', label: 'Buscando soluciones creativas e innovadoras', weight: { tech: 3, management: 2 } },
-                { value: 'collaborative', label: 'Trabajando en equipo y consultando expertos', weight: { management: 3, admin: 2 } },
-                { value: 'research', label: 'Investigando y analizando a fondo', weight: { chemical: 3, civil: 2, tech: 1 } }
+                { value: 'a', label: 'Con algoritmos, codigo o herramientas digitales', weight: { sistemas: 3, tics: 2, electrica: 1 } },
+                { value: 'b', label: 'Con calculos, planos y modelos fisicos', weight: { civil: 3, arquitectura: 2, electrica: 2 } },
+                { value: 'c', label: 'Analizando numeros, estados financieros y presupuestos', weight: { contaduria: 3, ingAdministracion: 2, administracion: 1 } },
+                { value: 'd', label: 'Investigando, experimentando y observando resultados', weight: { biologia: 3, gestion: 1, tics: 1 } }
             ]
         },
         {
             id: 5,
-            category: 'goals',
-            question: '¿Cuál de estos objetivos profesionales te motiva más?',
+            category: 'Motivacion',
+            icon: 'fas fa-star',
+            question: '\u00bfQue te motiva mas profesionalmente?',
             options: [
-                { value: 'innovation', label: 'Crear tecnología innovadora', weight: { tech: 3, engineering: 2 } },
-                { value: 'infrastructure', label: 'Construir infraestructura importante', weight: { civil: 3, engineering: 2 } },
-                { value: 'business', label: 'Dirigir una empresa exitosa', weight: { management: 3, admin: 2 } },
-                { value: 'improvement', label: 'Mejorar procesos y sistemas', weight: { engineering: 3, chemical: 2, admin: 1 } }
+                { value: 'a', label: 'Crear software que millones de personas utilicen', weight: { sistemas: 3, tics: 2 } },
+                { value: 'b', label: 'Construir infraestructura que perdure por generaciones', weight: { civil: 3, arquitectura: 2, electrica: 2 } },
+                { value: 'c', label: 'Dirigir una empresa exitosa o transformar organizaciones', weight: { gestion: 3, ingAdministracion: 3, administracion: 2, contaduria: 1 } },
+                { value: 'd', label: 'Proteger el medio ambiente y conservar la biodiversidad', weight: { biologia: 3, arquitectura: 1 } }
             ]
         },
         {
             id: 6,
-            category: 'learning',
-            question: '¿Cómo prefieres aprender nuevos conceptos?',
+            category: 'Aprendizaje',
+            icon: 'fas fa-book-reader',
+            question: '\u00bfComo aprendes mejor?',
             options: [
-                { value: 'practice', label: 'Practicando y experimentando', weight: { tech: 3, engineering: 2, chemical: 2 } },
-                { value: 'theory', label: 'Estudiando la teoría primero', weight: { chemical: 3, civil: 2 } },
-                { value: 'discussion', label: 'Discutiendo con otros', weight: { management: 3, admin: 2 } },
-                { value: 'observation', label: 'Observando y analizando ejemplos', weight: { engineering: 2, admin: 2, tech: 1 } }
+                { value: 'a', label: 'Practicando con computadoras, simuladores o laboratorios virtuales', weight: { sistemas: 3, tics: 3, electrica: 2 } },
+                { value: 'b', label: 'Dibujando, construyendo maquetas o visitando obras', weight: { arquitectura: 3, civil: 3 } },
+                { value: 'c', label: 'Debatiendo, presentando ideas y trabajando en equipo', weight: { gestion: 2, administracion: 3, ingAdministracion: 2, contaduria: 1 } },
+                { value: 'd', label: 'Haciendo trabajo de campo, observando y recolectando datos', weight: { biologia: 3, electrica: 1, civil: 1 } }
             ]
         },
         {
             id: 7,
-            category: 'subjects',
-            question: '¿Cuáles fueron tus materias favoritas en preparatoria?',
+            category: 'Materias favoritas',
+            icon: 'fas fa-chalkboard-teacher',
+            question: '\u00bfQue materias disfrutabas mas en preparatoria?',
             options: [
-                { value: 'math_physics', label: 'Matemáticas y Física', weight: { tech: 3, engineering: 3, civil: 3, chemical: 2 } },
-                { value: 'chemistry_biology', label: 'Química y Biología', weight: { chemical: 3, engineering: 1 } },
-                { value: 'social_languages', label: 'Ciencias Sociales e Idiomas', weight: { management: 3, admin: 3 } },
-                { value: 'computers', label: 'Computación e Informática', weight: { tech: 3, engineering: 1 } }
+                { value: 'a', label: 'Informatica, programacion o tecnologia', weight: { sistemas: 3, tics: 3, electrica: 1 } },
+                { value: 'b', label: 'Matematicas, fisica y dibujo tecnico', weight: { civil: 3, arquitectura: 2, electrica: 3, ingAdministracion: 1 } },
+                { value: 'c', label: 'Economia, contabilidad o administracion', weight: { contaduria: 3, gestion: 2, administracion: 2, ingAdministracion: 2 } },
+                { value: 'd', label: 'Biologia, ecologia o quimica', weight: { biologia: 3, arquitectura: 1 } }
             ]
         },
         {
             id: 8,
-            category: 'personality',
-            question: '¿Cómo te describirías mejor?',
+            category: 'Personalidad',
+            icon: 'fas fa-user',
+            question: '\u00bfComo te describirias mejor?',
             options: [
-                { value: 'analytical', label: 'Analítico y detallista', weight: { tech: 2, chemical: 3, engineering: 2 } },
-                { value: 'leader', label: 'Líder natural y carismático', weight: { management: 3, admin: 2 } },
-                { value: 'practical', label: 'Práctico y orientado a resultados', weight: { engineering: 3, civil: 2 } },
-                { value: 'innovative', label: 'Innovador y visionario', weight: { tech: 3, management: 2, engineering: 1 } }
+                { value: 'a', label: 'Logico, curioso y apasionado por la tecnologia', weight: { sistemas: 3, tics: 2, electrica: 2 } },
+                { value: 'b', label: 'Creativo, observador y con buena vision espacial', weight: { arquitectura: 3, civil: 2, biologia: 1 } },
+                { value: 'c', label: 'Emprendedor, persuasivo y con mentalidad de lider', weight: { gestion: 3, ingAdministracion: 3, administracion: 2 } },
+                { value: 'd', label: 'Meticuloso, responsable y orientado a los numeros', weight: { contaduria: 3, administracion: 1, electrica: 1 } }
+            ]
+        },
+        {
+            id: 9,
+            category: 'Valores',
+            icon: 'fas fa-gem',
+            question: '\u00bfQue valoras mas en una carrera profesional?',
+            options: [
+                { value: 'a', label: 'Innovacion constante y estar a la vanguardia tecnologica', weight: { sistemas: 2, tics: 3, electrica: 2, arquitectura: 1 } },
+                { value: 'b', label: 'Estabilidad economica y alta demanda laboral', weight: { contaduria: 3, civil: 2, ingAdministracion: 2 } },
+                { value: 'c', label: 'Independencia para emprender y generar impacto social', weight: { gestion: 3, administracion: 2, ingAdministracion: 2 } },
+                { value: 'd', label: 'Contribuir a la ciencia y la conservacion del planeta', weight: { biologia: 3, arquitectura: 1, electrica: 1 } }
+            ]
+        },
+        {
+            id: 10,
+            category: 'Vision de futuro',
+            icon: 'fas fa-rocket',
+            question: '\u00bfQue impacto quieres dejar en el mundo?',
+            options: [
+                { value: 'a', label: 'Transformar la sociedad con soluciones digitales y conectividad', weight: { sistemas: 2, tics: 3, electrica: 2 } },
+                { value: 'b', label: 'Crear espacios y edificaciones que mejoren la calidad de vida', weight: { arquitectura: 3, civil: 3 } },
+                { value: 'c', label: 'Impulsar la economia generando empleos y empresas competitivas', weight: { gestion: 2, ingAdministracion: 3, contaduria: 2, administracion: 2 } },
+                { value: 'd', label: 'Preservar ecosistemas y garantizar un futuro sustentable', weight: { biologia: 3, arquitectura: 1 } }
             ]
         }
     ];
 
-    // Definición de carreras con sus características
-    const careers = {
-        tech: {
-            name: 'Ingeniería en Tecnologías de la Información y Comunicaciones',
-            description: 'Desarrolla software, administra redes y sistemas, implementa soluciones tecnológicas innovadoras.',
-            duration: '9 semestres',
-            opportunities: ['Desarrollador de Software', 'Administrador de Redes', 'Consultor en TI', 'Arquitecto de Software'],
-            skills: ['Programación', 'Análisis de Sistemas', 'Bases de Datos', 'Ciberseguridad'],
-            icon: 'fas fa-laptop-code',
-            color: '#3b82f6'
-        },
-        engineering: {
-            name: 'Ingeniería Industrial',
-            description: 'Optimiza procesos, mejora la productividad y gestiona la calidad en organizaciones.',
-            duration: '9 semestres',
-            opportunities: ['Ingeniero de Procesos', 'Consultor en Calidad', 'Gerente de Producción', 'Analista de Procesos'],
-            skills: ['Optimización', 'Gestión de Calidad', 'Estadística', 'Lean Manufacturing'],
-            icon: 'fas fa-industry',
-            color: '#ef4444'
-        },
-        management: {
-            name: 'Ingeniería en Gestión Empresarial',
-            description: 'Administra empresas, desarrolla estrategias de negocio y lidera equipos de trabajo.',
-            duration: '9 semestres',
-            opportunities: ['Gerente Empresarial', 'Consultor de Negocios', 'Emprendedor', 'Director de Proyectos'],
-            skills: ['Liderazgo', 'Estrategia', 'Finanzas', 'Mercadotecnia'],
-            icon: 'fas fa-chart-line',
-            color: '#10b981'
-        },
-        admin: {
-            name: 'Licenciatura en Administración',
-            description: 'Gestiona recursos humanos, coordina operaciones y desarrolla organizaciones.',
-            duration: '8 semestres',
-            opportunities: ['Administrador General', 'Coordinador de RRHH', 'Analista Organizacional', 'Supervisor Administrativo'],
-            skills: ['Administración', 'Recursos Humanos', 'Contabilidad', 'Organización'],
-            icon: 'fas fa-users-cog',
-            color: '#f59e0b'
-        },
-        civil: {
-            name: 'Ingeniería Civil',
-            description: 'Diseña y construye infraestructura, supervisa obras y desarrolla proyectos urbanos.',
-            duration: '10 semestres',
-            opportunities: ['Ingeniero Civil', 'Supervisor de Obra', 'Consultor Estructural', 'Diseñador de Proyectos'],
-            skills: ['Diseño Estructural', 'Construcción', 'Topografía', 'Materiales'],
-            icon: 'fas fa-hard-hat',
-            color: '#8b5cf6'
-        },
-        chemical: {
-            name: 'Ingeniería Química',
-            description: 'Desarrolla procesos químicos, investiga materiales y trabaja en biotecnología.',
-            duration: '9 semestres',
-            opportunities: ['Ingeniero de Procesos Químicos', 'Investigador', 'Consultor Ambiental', 'Especialista en Materiales'],
-            skills: ['Procesos Químicos', 'Biotecnología', 'Análisis de Materiales', 'Investigación'],
-            icon: 'fas fa-flask',
-            color: '#06b6d4'
+    // ------------------------------------------------------------------
+    // State
+    // ------------------------------------------------------------------
+    var currentStep = 'intro';
+    var currentQuestion = 0;
+    var answers = {};
+    var root;
+
+    // ------------------------------------------------------------------
+    // Utility: create element helper
+    // ------------------------------------------------------------------
+    function el(tag, attrs, children) {
+        var elem = document.createElement(tag);
+        if (attrs) {
+            Object.keys(attrs).forEach(function (key) {
+                if (key === 'className') {
+                    elem.className = attrs[key];
+                } else if (key === 'innerHTML') {
+                    elem.innerHTML = attrs[key];
+                } else if (key === 'textContent') {
+                    elem.textContent = attrs[key];
+                } else if (key.indexOf('on') === 0) {
+                    elem.addEventListener(key.substring(2).toLowerCase(), attrs[key]);
+                } else if (key === 'style' && typeof attrs[key] === 'object') {
+                    Object.keys(attrs[key]).forEach(function (s) {
+                        elem.style[s] = attrs[key][s];
+                    });
+                } else {
+                    elem.setAttribute(key, attrs[key]);
+                }
+            });
         }
-    };
-
-    // Procesar respuestas y calcular resultados
-    const processAnswers = () => {
-        setIsProcessing(true);
-        
-        // Simular procesamiento con IA
-        setTimeout(() => {
-            const scores = {};
-            
-            // Inicializar scores
-            Object.keys(careers).forEach(key => {
-                scores[key] = 0;
-            });
-
-            // Calcular puntajes basados en respuestas
-            Object.values(answers).forEach(answer => {
-                const question = questions.find(q => q.id === answer.questionId);
-                const selectedOption = question.options.find(opt => opt.value === answer.value);
-                
-                Object.entries(selectedOption.weight).forEach(([career, weight]) => {
-                    scores[career] = (scores[career] || 0) + weight;
+        if (children) {
+            if (typeof children === 'string') {
+                elem.innerHTML = children;
+            } else if (Array.isArray(children)) {
+                children.forEach(function (child) {
+                    if (child) elem.appendChild(child);
                 });
+            } else {
+                elem.appendChild(children);
+            }
+        }
+        return elem;
+    }
+
+    // ------------------------------------------------------------------
+    // Render: Intro screen
+    // ------------------------------------------------------------------
+    function renderIntro() {
+        root.innerHTML = '';
+        root.className = 'vt-container';
+
+        var intro = el('div', { className: 'vt-intro animate-fadeIn' });
+
+        intro.innerHTML =
+            '<div class="vt-intro-visual">' +
+                '<div class="vt-intro-circle"></div>' +
+                '<div class="vt-intro-icon"><i class="fas fa-graduation-cap"></i></div>' +
+            '</div>' +
+            '<h3 class="vt-intro-title">Test Vocacional Inteligente</h3>' +
+            '<p class="vt-intro-description">' +
+                'Descubre cual de las <strong>10 carreras</strong> del Instituto Tecnologico de Chetumal ' +
+                'se alinea mejor con tu perfil, intereses y habilidades.' +
+            '</p>' +
+            '<div class="vt-features">' +
+                '<div class="vt-feature"><div class="vt-feature-icon"><i class="fas fa-list-ol"></i></div><span>10 preguntas</span></div>' +
+                '<div class="vt-feature"><div class="vt-feature-icon"><i class="fas fa-clock"></i></div><span>5 minutos</span></div>' +
+                '<div class="vt-feature"><div class="vt-feature-icon"><i class="fas fa-user-check"></i></div><span>Personalizado</span></div>' +
+                '<div class="vt-feature"><div class="vt-feature-icon"><i class="fas fa-chart-bar"></i></div><span>Top 3 carreras</span></div>' +
+            '</div>' +
+            '<div class="vt-intro-note">' +
+                '<i class="fas fa-info-circle"></i> ' +
+                'Este test es orientativo y gratuito. No requiere registro.' +
+            '</div>';
+
+        var startBtn = el('button', {
+            className: 'btn btn-primary btn-lg vt-start-btn',
+            onClick: function () {
+                currentStep = 'questions';
+                currentQuestion = 0;
+                answers = {};
+                renderQuestion();
+            }
+        });
+        startBtn.innerHTML = '<i class="fas fa-play me-2"></i>Comenzar Test';
+        intro.appendChild(startBtn);
+
+        root.appendChild(intro);
+    }
+
+    // ------------------------------------------------------------------
+    // Render: Question screen
+    // ------------------------------------------------------------------
+    function renderQuestion() {
+        root.innerHTML = '';
+        root.className = 'vt-container';
+
+        var q = questions[currentQuestion];
+        var progress = ((currentQuestion + 1) / questions.length) * 100;
+
+        var wrapper = el('div', { className: 'vt-question animate-fadeIn' });
+
+        // Progress bar
+        var header = el('div', { className: 'vt-question-header' });
+        header.innerHTML =
+            '<div class="vt-progress-bar"><div class="vt-progress-fill" style="width:' + progress + '%"></div></div>' +
+            '<div class="vt-question-meta">' +
+                '<span class="vt-question-counter">Pregunta ' + (currentQuestion + 1) + ' de ' + questions.length + '</span>' +
+                '<span class="vt-question-category"><i class="' + q.icon + ' me-1"></i>' + q.category + '</span>' +
+            '</div>';
+        wrapper.appendChild(header);
+
+        // Question text
+        var body = el('div', { className: 'vt-question-body' });
+        var qText = el('h3', { className: 'vt-question-text', textContent: q.question });
+        body.appendChild(qText);
+
+        // Options
+        var optionsContainer = el('div', { className: 'vt-options' });
+        q.options.forEach(function (option, index) {
+            var optBtn = el('button', {
+                className: 'vt-option-btn',
+                onClick: function () {
+                    handleAnswer(q.id, option.value);
+                }
             });
+            optBtn.innerHTML =
+                '<span class="vt-option-letter">' + String.fromCharCode(65 + index) + '</span>' +
+                '<span class="vt-option-label">' + option.label + '</span>' +
+                '<i class="fas fa-arrow-right vt-option-arrow"></i>';
+            optionsContainer.appendChild(optBtn);
+        });
+        body.appendChild(optionsContainer);
 
-            // Ordenar carreras por puntaje
-            const sortedCareers = Object.entries(scores)
-                .sort(([,a], [,b]) => b - a)
-                .slice(0, 3)
-                .map(([careerKey, score]) => ({
-                    ...careers[careerKey],
-                    key: careerKey,
-                    score,
-                    compatibility: Math.min(Math.round((score / 24) * 100), 95) // Normalizar a porcentaje
-                }));
+        // Back button (if not first question)
+        if (currentQuestion > 0) {
+            var backBtn = el('button', {
+                className: 'btn btn-outline-secondary vt-back-btn',
+                onClick: function () {
+                    currentQuestion--;
+                    renderQuestion();
+                }
+            });
+            backBtn.innerHTML = '<i class="fas fa-arrow-left me-2"></i>Pregunta anterior';
+            body.appendChild(backBtn);
+        }
 
-            setResults(sortedCareers);
-            setIsProcessing(false);
-            setCurrentStep('results');
-        }, 2000);
-    };
+        wrapper.appendChild(body);
+        root.appendChild(wrapper);
+    }
 
-    // Manejar respuesta de pregunta
-    const handleAnswer = (questionId, value) => {
-        setAnswers(prev => ({
-            ...prev,
-            [questionId]: { questionId, value }
-        }));
+    // ------------------------------------------------------------------
+    // Handle answer selection
+    // ------------------------------------------------------------------
+    function handleAnswer(questionId, value) {
+        answers[questionId] = { questionId: questionId, value: value };
 
         if (currentQuestion < questions.length - 1) {
-            setCurrentQuestion(prev => prev + 1);
+            currentQuestion++;
+            renderQuestion();
         } else {
             processAnswers();
         }
-    };
-
-    // Componentes del test
-    const IntroComponent = () => (
-        <div className="test-intro">
-            <div className="intro-content">
-                <div className="intro-icon">
-                    <i className="fas fa-brain"></i>
-                </div>
-                <h3>Test Vocacional Inteligente</h3>
-                <p>
-                    Descubre qué carrera del TecNM Chetumal se adapta mejor a tu perfil. 
-                    Nuestro sistema analiza tus respuestas para darte recomendaciones personalizadas.
-                </p>
-                <div className="test-features">
-                    <div className="feature">
-                        <i className="fas fa-clock"></i>
-                        <span>8 preguntas - 5 minutos</span>
-                    </div>
-                    <div className="feature">
-                        <i className="fas fa-chart-bar"></i>
-                        <span>Análisis personalizado</span>
-                    </div>
-                    <div className="feature">
-                        <i className="fas fa-graduation-cap"></i>
-                        <span>Recomendaciones de carreras</span>
-                    </div>
-                </div>
-                <button 
-                    className="btn btn-primary btn-lg"
-                    onClick={() => setCurrentStep('questions')}
-                >
-                    Comenzar Test
-                </button>
-            </div>
-        </div>
-    );
-
-    const QuestionComponent = () => {
-        const question = questions[currentQuestion];
-        const progress = ((currentQuestion + 1) / questions.length) * 100;
-
-        return (
-            <div className="test-question">
-                <div className="question-header">
-                    <div className="progress-bar">
-                        <div className="progress-fill" style={{width: `${progress}%`}}></div>
-                    </div>
-                    <div className="question-counter">
-                        Pregunta {currentQuestion + 1} de {questions.length}
-                    </div>
-                </div>
-                <div className="question-content">
-                    <h3>{question.question}</h3>
-                    <div className="options">
-                        {question.options.map((option, index) => (
-                            <button
-                                key={index}
-                                className="option-btn"
-                                onClick={() => handleAnswer(question.id, option.value)}
-                            >
-                                <div className="option-content">
-                                    <span>{option.label}</span>
-                                    <i className="fas fa-arrow-right"></i>
-                                </div>
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        );
-    };
-
-    const ProcessingComponent = () => (
-        <div className="test-processing">
-            <div className="processing-content">
-                <div className="processing-spinner">
-                    <div className="spinner"></div>
-                </div>
-                <h3>Analizando tus respuestas...</h3>
-                <p>Nuestro sistema de inteligencia artificial está procesando tu perfil vocacional</p>
-                <div className="processing-steps">
-                    <div className="step active">
-                        <i className="fas fa-user-check"></i>
-                        <span>Analizando perfil</span>
-                    </div>
-                    <div className="step active">
-                        <i className="fas fa-brain"></i>
-                        <span>Procesando IA</span>
-                    </div>
-                    <div className="step">
-                        <i className="fas fa-chart-pie"></i>
-                        <span>Generando resultados</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-
-    const ResultsComponent = () => (
-        <div className="test-results">
-            <div className="results-header">
-                <div className="results-icon">
-                    <i className="fas fa-trophy"></i>
-                </div>
-                <h3>¡Resultados de tu Test Vocacional!</h3>
-                <p>Basado en tu perfil, estas son las carreras más compatibles contigo:</p>
-            </div>
-            
-            <div className="results-content">
-                {results?.map((career, index) => (
-                    <div key={career.key} className={`career-result ${index === 0 ? 'best-match' : ''}`}>
-                        <div className="result-header">
-                            <div className="result-icon" style={{background: career.color}}>
-                                <i className={career.icon}></i>
-                            </div>
-                            <div className="result-info">
-                                <div className="compatibility">
-                                    <span>{career.compatibility}% Compatible</span>
-                                    {index === 0 && <span className="best-badge">Mejor opción</span>}
-                                </div>
-                                <div className="compatibility-bar">
-                                    <div 
-                                        className="compatibility-fill" 
-                                        style={{width: `${career.compatibility}%`, background: career.color}}
-                                    ></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="result-content">
-                            <h4>{career.name}</h4>
-                            <p>{career.description}</p>
-                            <div className="career-details">
-                                <div className="detail">
-                                    <i className="fas fa-clock"></i>
-                                    <span>Duración: {career.duration}</span>
-                                </div>
-                                <div className="detail">
-                                    <i className="fas fa-tools"></i>
-                                    <span>Habilidades: {career.skills.slice(0, 2).join(', ')}</span>
-                                </div>
-                            </div>
-                            <div className="opportunities">
-                                <h5>Oportunidades laborales:</h5>
-                                <div className="opportunities-list">
-                                    {career.opportunities.slice(0, 3).map((opp, i) => (
-                                        <span key={i} className="opportunity-tag">{opp}</span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            <div className="results-actions">
-                <button 
-                    className="btn btn-primary"
-                    onClick={() => scrollToSection('informacion')}
-                >
-                    <i className="fas fa-phone"></i>
-                    Contactar para más información
-                </button>
-                <button 
-                    className="btn btn-outline-primary"
-                    onClick={() => {
-                        setCurrentStep('intro');
-                        setCurrentQuestion(0);
-                        setAnswers({});
-                        setResults(null);
-                    }}
-                >
-                    <i className="fas fa-redo"></i>
-                    Realizar test nuevamente
-                </button>
-            </div>
-        </div>
-    );
-
-    // Render principal
-    return (
-        <div className="vocational-test">
-            {currentStep === 'intro' && <IntroComponent />}
-            {currentStep === 'questions' && <QuestionComponent />}
-            {isProcessing && <ProcessingComponent />}
-            {currentStep === 'results' && <ResultsComponent />}
-        </div>
-    );
-}
-
-// Renderizar el componente
-const testContainer = document.getElementById('vocational-test-root');
-if (testContainer) {
-    ReactDOM.render(<VocationalTest />, testContainer);
-}
-
-// CSS adicional para el test vocacional
-const testStyles = `
-<style>
-.vocational-test {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.test-intro {
-    text-align: center;
-    padding: 3rem 2rem;
-}
-
-.intro-icon {
-    font-size: 4rem;
-    color: var(--primary-orange);
-    margin-bottom: 1.5rem;
-}
-
-.intro-content h3 {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    color: var(--text-dark);
-    margin-bottom: 1rem;
-}
-
-.intro-content p {
-    font-size: 1.2rem;
-    color: var(--text-gray);
-    margin-bottom: 2rem;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.test-features {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-bottom: 2.5rem;
-    flex-wrap: wrap;
-}
-
-.feature {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-gray);
-    font-weight: 500;
-}
-
-.feature i {
-    color: var(--primary-blue);
-}
-
-.test-question {
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-soft);
-    overflow: hidden;
-}
-
-.question-header {
-    background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-    color: white;
-    padding: 1.5rem;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
-    margin-bottom: 1rem;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: var(--primary-orange);
-    transition: width 0.3s ease;
-}
-
-.question-counter {
-    font-weight: 600;
-    opacity: 0.9;
-}
-
-.question-content {
-    padding: 2.5rem;
-}
-
-.question-content h3 {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    color: var(--text-dark);
-    margin-bottom: 2rem;
-    line-height: 1.4;
-}
-
-.options {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.option-btn {
-    background: var(--bg-light);
-    border: 2px solid transparent;
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
-    text-align: left;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.option-btn:hover {
-    background: white;
-    border-color: var(--primary-blue);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-soft);
-}
-
-.option-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.option-content span {
-    color: var(--text-dark);
-    font-weight: 500;
-}
-
-.option-content i {
-    color: var(--primary-orange);
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s ease;
-}
-
-.option-btn:hover .option-content i {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.test-processing {
-    text-align: center;
-    padding: 4rem 2rem;
-}
-
-.processing-spinner {
-    margin-bottom: 2rem;
-}
-
-.spinner {
-    width: 80px;
-    height: 80px;
-    border: 4px solid var(--bg-light);
-    border-top: 4px solid var(--primary-orange);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto;
-}
-
-.processing-content h3 {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    color: var(--text-dark);
-    margin-bottom: 1rem;
-}
-
-.processing-content p {
-    color: var(--text-gray);
-    margin-bottom: 3rem;
-}
-
-.processing-steps {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
-
-.step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
-}
-
-.step.active {
-    opacity: 1;
-}
-
-.step i {
-    font-size: 2rem;
-    color: var(--primary-blue);
-}
-
-.test-results {
-    padding: 2rem 0;
-}
-
-.results-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.results-icon {
-    font-size: 4rem;
-    color: var(--primary-orange);
-    margin-bottom: 1.5rem;
-}
-
-.results-header h3 {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    color: var(--text-dark);
-    margin-bottom: 1rem;
-}
-
-.results-header p {
-    font-size: 1.2rem;
-    color: var(--text-gray);
-}
-
-.career-result {
-    background: white;
-    border-radius: var(--border-radius);
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow-soft);
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.career-result:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-strong);
-}
-
-.career-result.best-match {
-    border-color: var(--primary-orange);
-    position: relative;
-}
-
-.career-result.best-match::before {
-    content: '👑';
-    position: absolute;
-    top: -10px;
-    right: 20px;
-    font-size: 2rem;
-}
-
-.result-header {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-    align-items: center;
-}
-
-.result-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    flex-shrink: 0;
-}
-
-.result-info {
-    flex: 1;
-}
-
-.compatibility {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-    align-items: center;
-}
-
-.compatibility span:first-child {
-    font-weight: 600;
-    color: var(--text-dark);
-}
-
-.best-badge {
-    background: var(--primary-orange);
-    color: white;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.compatibility-bar {
-    width: 100%;
-    height: 8px;
-    background: var(--bg-light);
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.compatibility-fill {
-    height: 100%;
-    transition: width 0.8s ease;
-}
-
-.result-content h4 {
-    font-family: var(--font-display);
-    font-size: 1.3rem;
-    color: var(--text-dark);
-    margin-bottom: 0.75rem;
-}
-
-.result-content p {
-    color: var(--text-gray);
-    margin-bottom: 1rem;
-}
-
-.career-details {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.detail {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--text-gray);
-}
-
-.detail i {
-    color: var(--primary-blue);
-}
-
-.opportunities h5 {
-    font-size: 1rem;
-    color: var(--text-dark);
-    margin-bottom: 0.75rem;
-    font-weight: 600;
-}
-
-.opportunities-list {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.opportunity-tag {
-    background: var(--light-orange);
-    color: var(--primary-orange);
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.results-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 3rem;
-    flex-wrap: wrap;
-}
-
-@media (max-width: 768px) {
-    .test-features {
-        flex-direction: column;
-        gap: 1rem;
     }
-    
-    .question-content {
-        padding: 2rem 1.5rem;
-    }
-    
-    .option-btn {
-        padding: 1rem;
-    }
-    
-    .career-result {
-        padding: 1.5rem;
-    }
-    
-    .result-header {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .career-details {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .results-actions {
-        flex-direction: column;
-    }
-    
-    .processing-steps {
-        flex-direction: column;
-        gap: 1rem;
-    }
-}
-</style>
-`;
 
-// Inyectar estilos del test
-if (!document.querySelector('#test-styles')) {
-    const styleElement = document.createElement('style');
-    styleElement.id = 'test-styles';
-    styleElement.innerHTML = testStyles.replace(/<style>|<\/style>/g, '');
-    document.head.appendChild(styleElement);
-}
+    // ------------------------------------------------------------------
+    // Process answers and calculate scores
+    // ------------------------------------------------------------------
+    function processAnswers() {
+        currentStep = 'processing';
+        renderProcessing();
+
+        var processingSteps = root.querySelectorAll('.vt-step');
+        var stepIndex = 0;
+
+        // Animate steps
+        var stepInterval = setInterval(function () {
+            if (stepIndex < processingSteps.length) {
+                processingSteps[stepIndex].classList.add('active');
+                stepIndex++;
+            }
+        }, 700);
+
+        // Calculate after animation
+        setTimeout(function () {
+            clearInterval(stepInterval);
+
+            var scores = {};
+            Object.keys(careers).forEach(function (key) {
+                scores[key] = 0;
+            });
+
+            // Accumulate weights
+            Object.values(answers).forEach(function (answer) {
+                var question = questions.find(function (q) { return q.id === answer.questionId; });
+                if (!question) return;
+                var selectedOption = question.options.find(function (opt) { return opt.value === answer.value; });
+                if (!selectedOption) return;
+
+                Object.keys(selectedOption.weight).forEach(function (careerKey) {
+                    if (scores[careerKey] !== undefined) {
+                        scores[careerKey] += selectedOption.weight[careerKey];
+                    }
+                });
+            });
+
+            var maxPossible = questions.length * 3;
+
+            // Sort and get top 3
+            var sortedCareers = Object.keys(scores)
+                .map(function (key) {
+                    return {
+                        key: key,
+                        career: careers[key],
+                        score: scores[key],
+                        compatibility: Math.min(Math.round((scores[key] / maxPossible) * 100), 95)
+                    };
+                })
+                .sort(function (a, b) { return b.score - a.score; })
+                .slice(0, 3);
+
+            currentStep = 'results';
+            renderResults(sortedCareers);
+        }, 2800);
+    }
+
+    // ------------------------------------------------------------------
+    // Render: Processing animation
+    // ------------------------------------------------------------------
+    function renderProcessing() {
+        root.innerHTML = '';
+        root.className = 'vt-container';
+
+        var wrapper = el('div', { className: 'vt-processing animate-fadeIn' });
+        wrapper.innerHTML =
+            '<div class="vt-processing-content">' +
+                '<div class="vt-spinner-wrapper">' +
+                    '<div class="vt-spinner"></div>' +
+                    '<div class="vt-spinner-icon"><i class="fas fa-brain"></i></div>' +
+                '</div>' +
+                '<h3 class="vt-processing-title">Analizando tus respuestas...</h3>' +
+                '<p class="vt-processing-subtitle">Estamos evaluando tu perfil vocacional con base en tus respuestas.</p>' +
+                '<div class="vt-processing-steps">' +
+                    '<div class="vt-step"><i class="fas fa-user-check"></i><span>Analizando perfil</span></div>' +
+                    '<div class="vt-step"><i class="fas fa-cogs"></i><span>Procesando datos</span></div>' +
+                    '<div class="vt-step"><i class="fas fa-chart-pie"></i><span>Calculando compatibilidad</span></div>' +
+                    '<div class="vt-step"><i class="fas fa-trophy"></i><span>Generando resultados</span></div>' +
+                '</div>' +
+            '</div>';
+        root.appendChild(wrapper);
+    }
+
+    // ------------------------------------------------------------------
+    // Render: Results screen
+    // ------------------------------------------------------------------
+    function renderResults(sortedCareers) {
+        root.innerHTML = '';
+        root.className = 'vt-container';
+
+        var wrapper = el('div', { className: 'vt-results animate-fadeIn' });
+
+        // Header
+        var header = el('div', { className: 'vt-results-header' });
+        header.innerHTML =
+            '<div class="vt-results-trophy"><i class="fas fa-trophy"></i></div>' +
+            '<h3 class="vt-results-title">Resultados de tu Test Vocacional</h3>' +
+            '<p class="vt-results-subtitle">Basado en tu perfil, estas son las carreras mas compatibles contigo:</p>';
+        wrapper.appendChild(header);
+
+        // Career cards
+        var list = el('div', { className: 'vt-results-list' });
+        sortedCareers.forEach(function (item, index) {
+            var career = item.career;
+            var card = el('div', { className: 'vt-career-card' + (index === 0 ? ' vt-best-match' : '') });
+
+            // Position badge
+            var positions = ['1ra Opcion', '2da Opcion', '3ra Opcion'];
+            var positionBadge = '<span class="vt-position-badge" style="background:' + career.color + ';">' +
+                '<i class="fas fa-medal me-1"></i>' + positions[index] + '</span>';
+
+            // Skills tags
+            var skillsTags = career.skills.map(function (skill) {
+                return '<span class="vt-tag vt-tag-skill">' + skill + '</span>';
+            }).join('');
+
+            // Opportunities tags
+            var oppsTags = career.opportunities.map(function (opp) {
+                return '<span class="vt-tag vt-tag-opp">' + opp + '</span>';
+            }).join('');
+
+            // Modality
+            var modalityBadges = career.modality.map(function (m) {
+                return '<span class="vt-modality-badge">' + m + '</span>';
+            }).join('');
+
+            card.innerHTML =
+                '<div class="vt-career-top">' +
+                    '<div class="vt-career-icon" style="background-color:' + career.color + ';">' +
+                        '<i class="' + career.icon + '"></i>' +
+                    '</div>' +
+                    '<div class="vt-career-info">' +
+                        '<div class="vt-career-name-row">' +
+                            '<h4 class="vt-career-name">' + career.name + '</h4>' +
+                            positionBadge +
+                        '</div>' +
+                        '<div class="vt-compat-row">' +
+                            '<span class="vt-compat-pct" style="color:' + career.color + ';">' + item.compatibility + '% Compatible</span>' +
+                            (index === 0 ? '<span class="vt-best-badge"><i class="fas fa-star me-1"></i>Mejor opcion</span>' : '') +
+                        '</div>' +
+                        '<div class="vt-compat-bar"><div class="vt-compat-fill" style="width:' + item.compatibility + '%;background-color:' + career.color + ';"></div></div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="vt-career-body">' +
+                    '<p class="vt-career-desc">' + career.description + '</p>' +
+                    '<div class="vt-career-meta">' +
+                        '<div class="vt-meta-item"><i class="fas fa-clock"></i><span>Duracion: ' + career.duration + '</span></div>' +
+                        '<div class="vt-meta-item"><i class="fas fa-university"></i><span>Modalidad: ' + modalityBadges + '</span></div>' +
+                    '</div>' +
+                    '<div class="vt-career-section">' +
+                        '<h5><i class="fas fa-cogs me-2"></i>Habilidades clave</h5>' +
+                        '<div class="vt-tags">' + skillsTags + '</div>' +
+                    '</div>' +
+                    '<div class="vt-career-section">' +
+                        '<h5><i class="fas fa-briefcase me-2"></i>Campo laboral</h5>' +
+                        '<div class="vt-tags">' + oppsTags + '</div>' +
+                    '</div>' +
+                '</div>';
+
+            list.appendChild(card);
+        });
+        wrapper.appendChild(list);
+
+        // Actions
+        var actions = el('div', { className: 'vt-results-actions' });
+
+        var contactBtn = el('button', {
+            className: 'btn btn-primary btn-lg',
+            onClick: function () {
+                var section = document.getElementById('contacto');
+                if (section) section.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+        contactBtn.innerHTML = '<i class="fas fa-envelope me-2"></i>Solicitar informacion';
+
+        var retryBtn = el('button', {
+            className: 'btn btn-outline-primary btn-lg',
+            onClick: function () {
+                currentStep = 'intro';
+                currentQuestion = 0;
+                answers = {};
+                renderIntro();
+            }
+        });
+        retryBtn.innerHTML = '<i class="fas fa-redo me-2"></i>Realizar test nuevamente';
+
+        var shareBtn = el('button', {
+            className: 'btn btn-outline-secondary btn-lg',
+            onClick: function () {
+                var topCareer = sortedCareers[0].career.name;
+                var text = 'Hice el test vocacional del ITChetumal y mi carrera ideal es ' + topCareer + '! Descubre la tuya en:';
+                if (navigator.share) {
+                    navigator.share({ title: 'Test Vocacional ITChetumal', text: text, url: window.location.href });
+                } else if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text + ' ' + window.location.href);
+                    if (window.showNotification) {
+                        window.showNotification('Enlace copiado al portapapeles', 'success');
+                    }
+                }
+            }
+        });
+        shareBtn.innerHTML = '<i class="fas fa-share-alt me-2"></i>Compartir resultado';
+
+        actions.appendChild(contactBtn);
+        actions.appendChild(retryBtn);
+        actions.appendChild(shareBtn);
+        wrapper.appendChild(actions);
+
+        root.appendChild(wrapper);
+
+        // Animate cards with stagger
+        var cardsToAnimate = root.querySelectorAll('.vt-career-card');
+        cardsToAnimate.forEach(function (card, i) {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(function () {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 200 + (i * 200));
+        });
+    }
+
+    // ------------------------------------------------------------------
+    // Initialize
+    // ------------------------------------------------------------------
+    function init() {
+        root = document.getElementById('vocational-test-root');
+        if (!root) return;
+        renderIntro();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
